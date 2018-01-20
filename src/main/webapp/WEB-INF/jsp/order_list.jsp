@@ -3,6 +3,8 @@
 <link href="js/kindeditor-4.1.10/themes/default/default.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8" src="js/kindeditor-4.1.10/kindeditor-all-min.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/datagrid-detailview.js"></script>
+
 
 <table class="easyui-datagrid" id="orderList" title="订单列表" data-options="singleSelect:false,collapsible:true,
 	pagination:true,rownumbers:true,url:'order/list',method:'get',pageSize:10,fitColumns:true,toolbar:toolbar_order">
@@ -11,10 +13,7 @@
 			<th data-options="field:'ck',checkbox:true"></th>
 			<th data-options="field:'orderId',align:'center',width:100">订单编号</th>
 			<th data-options="field:'custom',align:'center',width:100,formatter:formatCustom">订购客户</th>
-			<th data-options="field:'product',align:'center',width:100,formatter:formatProduct">订购产品</th>
-			<th data-options="field:'quantity',align:'center',width:100">订购数量</th>
-			<th data-options="field:'unitPrice',width:70,align:'center'">税前单价</th>
-			<th data-options="field:'unit',width:70,align:'center'">单位</th>
+			<th data-options="field:'totalMoney',width:70,align:'center'">总价</th>
 			<th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatOrderStatus">状态</th>
 			<th data-options="field:'orderDate',width:130,align:'center',formatter:TAOTAO.formatDateTime">订购日期</th>
 			<th data-options="field:'requestDate',width:130,align:'center',formatter:TAOTAO.formatDateTime">要求日期</th>
@@ -178,6 +177,38 @@
 	</div>
 </div>
 <script>
+$('#orderList').datagrid({
+    view: detailview,
+    detailFormatter:function(index,row){
+        return '<div style="padding:2px"><table class="ddv"></table></div>';
+    },
+    onExpandRow: function(index,row){
+        var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
+        ddv.datagrid({
+            url:'orderItem/get_orderitems_by_orderId?searchValue='+row.orderId,
+            fitColumns:true,
+            singleSelect:true,
+            rownumbers:true,
+            loadMsg:'',
+            height:'auto',
+            columns:[[
+                {field:'productId',title:'产品名称',width:50},
+                {field:'unit',title:'单价',width:50},
+                {field:'quantity',title:'数量',width:50},
+                {field:'unitPrice',title:'总价',width:50}
+            ]],
+            onResize:function(){
+                $('#orderList').datagrid('fixDetailRowHeight',index);
+            },
+            onLoadSuccess:function(){
+                setTimeout(function(){
+                    $('#orderList').datagrid('fixDetailRowHeight',index);
+                },0);
+            }
+        });
+        $('#orderList').datagrid('fixDetailRowHeight',index);
+    }
+});
 function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发此函数  
 	if(value == null || value == ''){
 		
@@ -189,10 +220,7 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 				{field : 'ck', checkbox:true },
 				{field : 'orderId', width : 100, align:'center', title : '订单编号'},
 				{field : 'custom', width : 100, align : 'center', title : '订购客户', formatter:formatCustom},
-				{field : 'product', width : 100, align : 'center', title : '订购产品', formatter:formatProduct},
-				{field : 'quantity', width : 100, title : '订购数量', align:'center'},
-				{field : 'unitPrice', width : 70, title : '税前单价', align:'center'},
-				{field : 'unit', width : 70, title : '单位', align:'center'},
+				{field : 'totalMoney', width : 70, title : '总价', align:'center'},
 				{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus},
 				{field : 'orderDate', width : 130, title : '订购日期', align:'center', formatter:TAOTAO.formatDateTime},
 				{field : 'requestDate', width : 130, title : '要求日期', align:'center',
@@ -211,10 +239,7 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 	             	{field : 'ck', checkbox:true }, 
 	             	{field : 'orderId', width : 100, title : '订单编号', align:'center'},
 	             	{field : 'custom', width : 100, align : 'center', title : '订购客户', formatter:formatCustom},
-	             	{field : 'product', width : 100, title : '订购产品', formatter:formatProduct}, 
-	             	{field : 'quantity', width : 100, title : '订购数量', align:'center'}, 
-	             	{field : 'unitPrice', width : 70, title : '税前单价', align:'center'}, 
-	            	{field : 'unit', width : 70, title : '单位', align:'center'}, 
+					{field : 'totalMoney', width : 70, title : '总价', align:'center'},
 	             	{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus}, 
 	             	{field : 'orderDate', width : 130, title : '订购日期', align:'center',
 						formatter:TAOTAO.formatDateTime},
@@ -243,14 +268,7 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 		}
 	};  
 	
-	//格式化产品信息
-	function  formatProduct(value, row, index){ 
-		if(value !=null && value != ''){
-			return "<a href=javascript:openOrderProduct("+index+")>"+value.productName+"</a>";
-		}else{
-			return "无";
-		}
-	};
+
 	
 	//格式化订单要求
 	function formatOrderNote(value, row, index){ 
@@ -321,7 +339,7 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 		var row = onOrderClickRow(index);
 		$("#orderProductInfo").dialog({
     		onOpen :function(){
-    			$.get("product/get/"+row.product.productId,'',function(data){
+    			$.get('orderItem/get_orderitems_by_orderId?searchValue='+row.orderId,'',function(data){
     				
     				orderProductEditor = TAOTAO.createEditor("#orderProductEditForm [name=note]");	
 		    		//回显数据
@@ -479,7 +497,7 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
                			//回显数据
                			var data = $("#orderList").datagrid("getSelections")[0];
                			data.customId = data.custom.customId; 
-               			data.productId = data.product.productId; 
+               			//data.productId = data.product.productId; 
                			data.orderDate = TAOTAO.formatDateTime(data.orderDate);
                			data.requestDate = TAOTAO.formatDateTime(data.requestDate);
                			$("#orderEditForm").form("load", data);
@@ -490,9 +508,9 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
                			});
                			
                			//加载文件上传插件
-               			initOrderEditFileUpload();
+               			//initOrderEditFileUpload();
                			//加载上传过的文件
-               			initUploadedFile();
+               			//initUploadedFile();
                		}
                	}).window("open");
        		}

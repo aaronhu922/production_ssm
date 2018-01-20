@@ -1,9 +1,10 @@
 package org.hqu.production_ms.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
 public class COrder {
@@ -18,16 +19,11 @@ public class COrder {
     @Size(max=5000, message="{note.length.error}")
     private String note;
 
-    @Max(value=999999999, message="订购数量不能超过999999999")
-    private Integer quantity;
-
-    @Max(value=999999999, message="单价不能超过999999999")
-    private BigDecimal unitPrice;
-
-    @Size(max=10, message="单位的长度限制在10个字符之内")
-    private String unit;
+    private BigDecimal totalMoney;
     
-    private String image;
+    private String orderList;  
+
+	private String image;
 
     private String file;
 
@@ -36,10 +32,18 @@ public class COrder {
     @Size(max=40, message="{id.length.error}")
     private String customId;
 
-    @Size(max=40, message="{id.length.error}")
-    private String productId;
 
-    public String getOrderId() {
+
+
+    public String getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(String orderList) {
+		this.orderList = orderList;
+	}
+
+	public String getOrderId() {
         return orderId;
     }
 
@@ -70,30 +74,14 @@ public class COrder {
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
     }
+    
+    public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
 
     public String getFile() {
         return file;
@@ -119,13 +107,6 @@ public class COrder {
 		this.customId = customId;
 	}
 
-	public String getProductId() {
-		return productId;
-	}
-
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
 
 	public String getImage() {
 		return image;

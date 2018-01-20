@@ -12,7 +12,17 @@
 	            	<input class="easyui-textbox" type="text" name="customName" data-options="required:true"/>
 	            </td>
 	        </tr>
-	        <tr>
+			<tr>
+				<td>账户余额:</td>
+				<td><input class="easyui-numberbox" type="text" name="balance"
+					data-options="min:-9999999,max:99999999,precision:2,required:true" /></td>
+			</tr>
+			<tr>
+				<td>欠瓶总数:</td>
+				<td><input class="easyui-numberbox" type="text"
+					name="dueBottle" /></td>
+			</tr>
+			<tr>
 	            <td>客户全称:</td>
 	            <td>
 	            	<input class="easyui-textbox" type="text" name="fullName" style="width: 280px;"/>

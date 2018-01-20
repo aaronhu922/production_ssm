@@ -30,13 +30,13 @@ public class OrderServiceImpl implements OrderService{
 	ProductService productService;
 	
 	@Override
-	public List<COrder> find() throws Exception{
+	public List<COrderVO> find() throws Exception{
 		COrderExample example = new COrderExample();
 		return cOrderMapper.selectByExample(example);
 	}
 	
 	@Override
-	public EUDataGridResult getList(int page, int rows, COrderVO cOrder) throws Exception{
+	public EUDataGridResult getList(int page, int rows, COrder cOrder) throws Exception{
 		
 		//分页处理
 		PageHelper.startPage(page, rows);
@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public COrder get(String id) throws Exception{
+	public COrderVO get(String id) throws Exception{
 		
 		return cOrderMapper.selectByPrimaryKey(id);
 	}

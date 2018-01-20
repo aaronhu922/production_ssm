@@ -10,10 +10,13 @@ import org.hqu.production_ms.domain.COrder;
 public interface COrderMapper {
 	
 	//扩展的mapper接口方法
-	List<COrderVO> find(COrderVO cOrder);
+	List<COrderVO> find(COrder cOrder);
 	
+
 	//根据订单id查找订单信息
 	List<COrderVO> searchOrderByOrderId(String orderId);
+	
+	List<COrderVO> searchOrderByOrderIdDeep(String orderId);
 	
 	List<COrderVO> searchOrderByCustomName(String customName);
 	
@@ -36,9 +39,9 @@ public interface COrderMapper {
 
     int insertSelective(COrder record);
 
-    List<COrder> selectByExample(COrderExample example);
+    List<COrderVO> selectByExample(COrderExample example);
 
-    COrder selectByPrimaryKey(String orderId);
+    COrderVO selectByPrimaryKey(String orderId);
 
     int updateByExampleSelective(@Param("record") COrder record, @Param("example") COrderExample example);
 
@@ -47,4 +50,6 @@ public interface COrderMapper {
     int updateByPrimaryKeySelective(COrder record);
 
     int updateByPrimaryKey(COrder cOrder);
+    
+    
 }

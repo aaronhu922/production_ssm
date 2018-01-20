@@ -8,18 +8,22 @@
 		toolbar:toolbar_custom">
     <thead>
         <tr>
-        	<th data-options="field:'ck',checkbox:true"></th>
-        	<th data-options="field:'customId',width:100,align:'center'">客户编号</th>
-            <th data-options="field:'customName',width:100,align:'center'">客户名称</th>
-            <th data-options="field:'fullName',width:200,align:'center'">客户全称</th>
-            <th data-options="field:'address',width:200,align:'center'">地址</th>
-            <th data-options="field:'fax',width:100,align:'center'">传真</th>
-            <th data-options="field:'email',width:100,align:'center'">邮箱</th>
-            <th data-options="field:'ownerName',width:60,align:'center'">经理姓名</th>
-            <th data-options="field:'ownerTel',width:100,align:'center'">联系电话</th>
-            <th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatCustomStatus">客户状态</th>
-            <th data-options="field:'note',width:130,align:'center', formatter:formatCustomNote">备注</th>
-        </tr>
+			<th data-options="field:'ck',checkbox:true"></th>
+			<th data-options="field:'customId',width:100,align:'center'">客户编号</th>
+			<th data-options="field:'customName',width:100,align:'center'">客户名称</th>
+			<th data-options="field:'balance',width:100,align:'center'">账户余额</th>
+			<th data-options="field:'dueBottle',width:100,align:'center'">欠瓶总数</th>
+			<th data-options="field:'fullName',width:200,align:'center'">客户全称</th>
+			<th data-options="field:'address',width:200,align:'center'">地址</th>
+			<th data-options="field:'fax',width:100,align:'center'">传真</th>
+			<th data-options="field:'email',width:100,align:'center'">邮箱</th>
+			<th data-options="field:'ownerName',width:60,align:'center'">经理姓名</th>
+			<th data-options="field:'ownerTel',width:100,align:'center'">联系电话</th>
+			<th
+				data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatCustomStatus">客户状态</th>
+			<th
+				data-options="field:'note',width:130,align:'center', formatter:formatCustomNote">备注</th>
+		</tr>
     </thead>
 </table>
 
@@ -104,6 +108,8 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 	             	{field : 'ck', checkbox:true }, 
 	             	{field : 'customId', width : 100, title : '客户编号', align:'center'},
 	             	{field : 'customName', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'balance', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称'},
 	             	{field : 'fullName', width : 200, align : 'center', title : '客户全称'}, 
 	             	{field : 'address', width : 200, title : '地址', align:'center'}, 
 	             	{field : 'fax', width : 100, title : '传真', align:'center'}, 
@@ -125,6 +131,8 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 					{field : 'ck', checkbox:true }, 
 					{field : 'customId', width : 100, title : '客户编号', align:'center'},
 					{field : 'customName', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'balance', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称'},
 					{field : 'fullName', width : 200, align : 'center', title : '客户全称'}, 
 					{field : 'address', width : 200, title : '地址', align:'center'}, 
 					{field : 'fax', width : 100, title : '传真', align:'center'}, 

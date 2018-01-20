@@ -18,6 +18,12 @@
             <th data-options="field:'productType',align:'center',width:150">
 				产品种类
 			</th>
+			 <th data-options="field:'unitPrice',align:'center',width:150">
+				产品单价
+			</th>
+            <th data-options="field:'unit',align:'center',width:150">
+				单位
+			</th>
             <th data-options="field:'status',width:100,align:'center',formatter:TAOTAO.formatProductStatus">
 				状态
 			</th>
@@ -114,6 +120,8 @@ function doSearch_product(value,name){ //用户输入用户名,点击搜素,触�
 				{field : 'productId', width : 150, title : '产品编号', align:'center'},
 				{field : 'productName', width : 150, align : 'center', title : '产品名称'},
 				{field : 'productType', width : 150, align : 'center', title : '产品种类'},
+				{field : 'unitPrice', width : 150, align : 'center', title : '产品单价'},
+				{field : 'unit', width : 150, align : 'center', title : '单位'},
 				{field : 'status', width : 100, title : '状态', align:'center', formatter:TAOTAO.formatProductStatus},
 				{field : 'note', width : 150, title : '产品介绍', align:'center', formatter:formatProductNote},
 				{field : 'image', width : 150, title : '相关图片', align:'center',formatter:formatImg},
@@ -129,6 +137,8 @@ function doSearch_product(value,name){ //用户输入用户名,点击搜素,触�
 				{field : 'productId', width : 150, title : '产品编号', align:'center'},
 				{field : 'productName', width : 150, align : 'center', title : '产品名称'},
 				{field : 'productType', width : 150, align : 'center', title : '产品种类'},
+				{field : 'unitPrice', width : 150, align : 'center', title : '产品单价'},
+				{field : 'unit', width : 150, align : 'center', title : '单位'},
 				{field : 'status', width : 100, title : '状态', align:'center', formatter:TAOTAO.formatProductStatus},
 				{field : 'note', width : 150, title : '产品介绍', align:'center', formatter:formatProductNote},
 				{field : 'image', width : 150, title : '相关图片', align:'center',formatter:formatImg},

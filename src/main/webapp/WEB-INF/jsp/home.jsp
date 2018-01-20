@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>制造物联中间件系统</title>
+<title>锦庄气体有限公司信息化系统</title>
 <style type="text/css">
 .content {
 	padding: 10px 10px 10px 10px;
@@ -31,7 +31,7 @@
 					<div style="position:relative;">
 						<div style="text-align:right;font-size:15px;margin:2px 0 0 0;">
 							<span style="display:inline-block;font-size:20px;color:#c1dff7;margin:0 0 8px 0;">
-								计算机科学与技术学院
+								锦庄气体有限公司
 							</span><br/>
 							
 							<span style="color:#c1dff7;">${activeUser.rolename}:</span>
@@ -63,9 +63,9 @@
 			<!---------------------------------------------------->
 		</div>
 
-		<div title="计划进度" data-options="selected:true" style="padding:10px;">
+		<div title="销售管理" data-options="selected:true" style="padding:10px;">
 			<ul id="scheduleMonitor" class="easyui-tree" data-options="animate:true,lines:true">
-				<li><span>计划进度</span>
+				<li><span>销售管理</span>
 					<ul>
 						<li id=11 data-options="attributes:{'url':'order/find'}">订单管理</li>
 					</ul>
@@ -75,78 +75,80 @@
 					<ul>
 						<li id=13 data-options="attributes:{'url':'product/find'}">产品管理</li>
 					</ul>
+					<!--
 					<ul>
 						<li id=14 data-options="attributes:{'url':'work/find'}">作业管理</li>
 					</ul>
 					<ul>
 						<li id=15 data-options="attributes:{'url':'manufacture/find'}">生产计划管理</li>
 					</ul>
+					-->
 					<ul>
-						<li id=16 data-options="attributes:{'url':'task/find'}">生产派工管理</li>
+						<li id=16 data-options="attributes:{'url':'task/find'}">派送管理</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 
-		<div title="设备管理" data-options="selected:true" style="padding:10px">
+		<!--div title="设备管理" data-options="selected:true" style="padding:10px">
 			<ul id="deviceMonitor" class="easyui-tree" data-options="animate:true,lines:true">
 				<li><span>设备管理</span>
 					<ul>
-						<li id=21 data-options="attributes:{'url':'device/deviceList'}">设备台账</li>
+						<li id=21 data-options="attributes:{'url':'device/deviceList'}">设备列表</li>
 						<li id=22 data-options="attributes:{'url':'device/deviceType'}">设备种类</li>
 						<li id=23 data-options="attributes:{'url':'device/deviceCheck'}">设备例检</li>
 						<li id=24 data-options="attributes:{'url':'device/deviceFault'}">设备故障</li>
 						<li id=25 data-options="attributes:{'url':'device/deviceMaintain'}">设备维修</li>
 					</ul></li>
 			</ul>
-		</div>
+		</div-->
 
-		<div title="工艺监控" data-options="selected:true" style="padding:10px">
+		<div title="财务管理" data-options="selected:true" style="padding:10px">
 			<ul id="technologyMonitor" class="easyui-tree" data-options="animate:true,lines:true">
-				<li><span>工艺监控</span>
+				<li><span>财务管理</span>
 					<ul>
-						<li id=31 data-options="attributes:{'url':'technology/find'}">工艺管理</li>
-						<li id=32 data-options="attributes:{'url':'technologyRequirement/find'}">工艺要求</li>
-						<li id=33 data-options="attributes:{'url':'technologyPlan/find'}">工艺计划</li>
-						<li id=34 data-options="attributes:{'url':'process/find'}">工序管理</li>
+						<li id=31 data-options="attributes:{'url':''}">财务报表</li>
+						<li id=32 data-options="attributes:{'url':''}">欠账提醒</li>
+						<li id=33 data-options="attributes:{'url':''}">财务计划</li>
+						<!--li id=34 data-options="attributes:{'url':'process/find'}">绩效管理</li-->
 					</ul>
 				</li>
 			</ul>
 		</div>
 		
-		<div title="物料监控" data-options="selected:true" style="padding:10px">
+		<!--div title="物料管理" data-options="selected:true" style="padding:10px">
 		
 			<ul id="materialMonitor" class="easyui-tree" data-options="animate:true,lines:true">
-				<li><span>物料监控 </span>
+				<li><span>物料管理 </span>
 					<ul>
 						<li id=41 data-options="attributes:{'url':'material/find'}">物料信息</li>
-						<li id=42 data-options="attributes:{'url':'materialReceive/find'}">物料收入</li>
+						<li id=42 data-options="attributes:{'url':'materialReceive/find'}">物料采购</li>
 				    	<li id=43 data-options="attributes:{'url':'materialConsume/find'}">物料消耗</li>	 					
 					</ul>
 				</li>
 			</ul>
-		</div>
+		</div-->
 		
-		<div title="质量监控" data-options="selected:true" style="padding:10px;">
+		<!--div title="统计管理" data-options="selected:true" style="padding:10px;">
 			<ul id="qualifyMonitor" class="easyui-tree"
 				data-options="animate:true,lines:true">
-				<li><span>质量监控</span>
+				<li><span>统计报表</span>
 					<ul>
-						<li id=51 data-options="attributes:{'url':'unqualify/find'}">不合格品管理</li>
-						<li id=52 data-options="attributes:{'url':'measure/find'}">成品计量质检</li>
-						<li id=53 data-options="attributes:{'url':'f_count_check/find'}">成品计数质检</li>
-						<li id=54 data-options="attributes:{'url':'p_measure_check/find'}">工序计量质检</li>
-						<li id=55 data-options="attributes:{'url':'p_count_check/find'}">工序计数质检</li>
+						<li id=51 data-options="attributes:{'url':'unqualify/find'}">欠瓶客户</li>
+						<li id=52 data-options="attributes:{'url':'measure/find'}">欠款客户</li>
+						<li id=53 data-options="attributes:{'url':'f_count_check/find'}">优秀客户</li>
+						<li id=54 data-options="attributes:{'url':'p_measure_check/find'}">月度报告</li>
+						<li id=55 data-options="attributes:{'url':'p_count_check/find'}">生产报告</li>
 					</ul>
 				</li>
 			</ul>
 
-		</div>
+		</div!-->
 		
-		<div title="人员监控" data-options="selected:true" style="padding:10px">
+		<div title="人员管理" data-options="selected:true" style="padding:10px">
 			<ul id="employeeMonitor" class="easyui-tree"
 				data-options="animate:true,lines:true">
-				<li><span>人员监控</span>
+				<li><span>人员管理</span>
 					<ul>
 						<li id=61 data-options="attributes:{'url':'department/find'}">部门管理</li>
 					</ul>
@@ -185,11 +187,11 @@
 	<script type="text/javascript">
 
 		var allItem = [
-						["计划进度","订单管理","客户管理","产品管理","作业管理","生产计划管理","生产派工管理"], 
+						["销售管理","订单管理","客户管理","产品管理","作业管理","生产计划管理","派送管理"], 
 						["设备管理","设备台账","设备种类","设备例检","设备故障","设备维修"],
-						["工艺监控","工艺","工艺要求","工艺计划","工序"],
-						["物料监控","物料信息","物料收入","物料消耗"],
-						["质量监控","不合格品管理","成品计量质检","成品计数质检","工序计量质检","工序计数质检"],
+						["财务管理","财务报表","欠账提醒","财务计划","绩效管理"],
+						["物料监控","物料信息","物料采购","物料消耗"],
+						["统计管理","欠瓶客户","欠款客户","优秀客户","月度报告","生产报告"],
 						["人员监控","部门管理","员工管理"]
 					  ];
 					  

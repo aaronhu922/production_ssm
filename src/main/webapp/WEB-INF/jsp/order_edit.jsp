@@ -19,32 +19,7 @@
 						   url:'custom/get_data', editable:false" />
 	            </td>
 	        </tr>
-	        <tr>
-	            <td>订购产品:</td>
-	            <td>
-	            	<input id="product" class="easyui-combobox" name="productId"  panelHeight="auto" 
-    					data-options="valueField:'productId',textField:'productName',url:'product/get_data',
-    					editable:false, required:true" />
-    			</td>  
-	        </tr>
-	        <tr>
-	            <td>订购数量:</td>
-	            <td>
-					<input class="easyui-numberbox" type="text" name="quantity"
-						   data-options="min:1,max:99999999,precision:0,required:true" />
-				</td>
-	        </tr>
-	        <tr>
-	            <td>税前单价:</td>
-	            <td><input class="easyui-numberbox" type="text" name="unitPrice"
-						   data-options="min:1,max:99999999,precision:2,required:true" />
-	            	<input type="hidden" name="price"/>
-	            </td>
-	        </tr>
-	        <tr>
-	            <td>单位:</td>
-	            <td><input  class="easyui-textbox" type="text" name="unit"/></td>
-	        </tr>
+	       
 	        <tr>
 	            <td>订单状态:</td>
 	            <td>
@@ -72,13 +47,6 @@
 	            <td>
 	            	 <a href="javascript:void(0)" class="easyui-linkbutton picFileUpload">上传图片</a>
 	                 <input type="hidden" id="image" name="image"/>
-	            </td>
-	        </tr>
-	        <tr>
-	            <td>附件:</td>
-	            <td>
-	            	 <div id="orderEditFileUploader">上传文件</div>
-	                 <input id="orderEditFile" type="hidden" name="file"/>
 	            </td>
 	        </tr>
 	        <tr>

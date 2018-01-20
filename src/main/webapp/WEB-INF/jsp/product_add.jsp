@@ -29,6 +29,16 @@
     			</td>  
 	        </tr>
 	        <tr>
+	            <td>产品单价:</td>
+	            <td><input class="easyui-numberbox" type="text" name="unitPrice"
+						   data-options="min:0,max:99999999,precision:2,required:true" />	            	
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>单位:</td>
+	            <td><input  class="easyui-textbox" type="text" name="unit" data-options="required:true"/></td>
+	        </tr>
+	        <tr>
 	            <td>产品状态:</td>
 	            <td>
 		            <select class="easyui-combobox" name="status" panelHeight="auto" data-options="required:true,

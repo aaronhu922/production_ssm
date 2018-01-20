@@ -1,5 +1,6 @@
 package org.hqu.production_ms.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,6 +242,126 @@ public class CustomExample {
 
         public Criteria andCustomNameNotBetween(String value1, String value2) {
             addCriterion("custom_name not between", value1, value2, "customName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceIsNull() {
+            addCriterion("balance is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceIsNotNull() {
+            addCriterion("balance is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceEqualTo(BigDecimal value) {
+            addCriterion("balance =", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceNotEqualTo(BigDecimal value) {
+            addCriterion("balance <>", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceGreaterThan(BigDecimal value) {
+            addCriterion("balance >", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("balance >=", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceLessThan(BigDecimal value) {
+            addCriterion("balance <", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("balance <=", value, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceIn(List<BigDecimal> values) {
+            addCriterion("balance in", values, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceNotIn(List<BigDecimal> values) {
+            addCriterion("balance not in", values, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("balance between", value1, value2, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andBalanceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("balance not between", value1, value2, "balance");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleIsNull() {
+            addCriterion("due_bottle is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleIsNotNull() {
+            addCriterion("due_bottle is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleEqualTo(Integer value) {
+            addCriterion("due_bottle =", value, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleNotEqualTo(Integer value) {
+            addCriterion("due_bottle <>", value, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleGreaterThan(Integer value) {
+            addCriterion("due_bottle >", value, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleGreaterThanOrEqualTo(Integer value) {
+            addCriterion("due_bottle >=", value, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleLessThan(Integer value) {
+            addCriterion("due_bottle <", value, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleLessThanOrEqualTo(Integer value) {
+            addCriterion("due_bottle <=", value, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleIn(List<Integer> values) {
+            addCriterion("due_bottle in", values, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleNotIn(List<Integer> values) {
+            addCriterion("due_bottle not in", values, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleBetween(Integer value1, Integer value2) {
+            addCriterion("due_bottle between", value1, value2, "dueBottle");
+            return (Criteria) this;
+        }
+
+        public Criteria andDueBottleNotBetween(Integer value1, Integer value2) {
+            addCriterion("due_bottle not between", value1, value2, "dueBottle");
             return (Criteria) this;
         }
 

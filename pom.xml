@@ -2,7 +2,7 @@
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.hqu</groupId>
-  <artifactId>production_ms</artifactId>
+  <artifactId>jinzhuang</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   
@@ -122,6 +122,11 @@
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-aspects</artifactId>
+		<version>4.1.3.RELEASE</version>
+	</dependency>
+		<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
 		<version>4.1.3.RELEASE</version>
 	</dependency>
 	<!-- JSP相关 -->

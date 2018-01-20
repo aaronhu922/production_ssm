@@ -1,5 +1,7 @@
 package org.hqu.production_ms.domain;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -11,6 +13,10 @@ public class Custom {
 	@Size(max=20, message="客户名称请限制在20个字符内")
     private String customName;
 
+    private BigDecimal balance;
+
+    private Integer dueBottle;
+	
 	@Size(max=100, message="客户全称请限制在100个字符内")
     private String fullName;
 
@@ -50,7 +56,25 @@ public class Custom {
         this.customName = customName == null ? null : customName.trim();
     }
 
-    public String getFullName() {
+    
+    
+    public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+
+	public Integer getDueBottle() {
+		return dueBottle;
+	}
+
+	public void setDueBottle(Integer dueBottle) {
+		this.dueBottle = dueBottle;
+	}
+
+	public String getFullName() {
         return fullName;
     }
 

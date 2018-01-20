@@ -1,5 +1,8 @@
 package org.hqu.production_ms.domain;
 
+import java.math.BigDecimal;
+
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
 public class Product {
@@ -12,7 +15,29 @@ public class Product {
 
 	@Size(max=100, message="产品种类的长度限制在100个字符之内")
     private String productType;
+	
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
+	}
 
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	@Max(value=999999999, message="单价不能超过999999999")
+	private BigDecimal unitPrice;
+
+	@Size(max=10, message="单位的长度限制在10个字符之内")
+	private String unit;
+	
     private String image;
 
     @Size(max=5000, message="{note.length.error}")

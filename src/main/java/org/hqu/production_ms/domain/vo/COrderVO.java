@@ -1,10 +1,13 @@
 package org.hqu.production_ms.domain.vo;
 
-import org.hqu.production_ms.domain.Custom;
-import org.hqu.production_ms.domain.Product;
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.hqu.production_ms.domain.Custom;
+import org.hqu.production_ms.domain.OrderItem;
+import org.hqu.production_ms.domain.Product;
 
 public class COrderVO {
     private String orderId;
@@ -13,13 +16,7 @@ public class COrderVO {
 
     private Date requestDate;
 
-    private String note;
-
-    private Integer quantity;
-
-    private BigDecimal unitPrice;
-
-    private String unit;
+    private String note;   
 
     private String image;
 
@@ -30,6 +27,27 @@ public class COrderVO {
     private Custom custom;
 
     private Product product;
+
+    private BigDecimal totalMoney;
+    
+    public Custom getCustom() {
+		return custom;
+	}
+
+	public void setCustom(Custom custom) {
+		this.custom = custom;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	private String customId;
+
 
     public String getOrderId() {
         return orderId;
@@ -62,38 +80,14 @@ public class COrderVO {
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
     }
+    
+    public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
-    }
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
 
     public String getFile() {
         return file;
@@ -111,19 +105,22 @@ public class COrderVO {
         this.status = status;
     }
 
-	public Custom getCustom() {
-		return custom;
+	public String getCustomId() {
+		return customId;
 	}
 
-	public void setCustom(Custom custom) {
-		this.custom = custom;
+	public void setCustomId(String customId) {
+		this.customId = customId;
 	}
 
-	public Product getProduct() {
-		return product;
+
+	public String getImage() {
+		return image;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setImage(String image) {
+		this.image = image;
 	}
+
+
 }
