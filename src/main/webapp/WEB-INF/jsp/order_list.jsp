@@ -13,13 +13,14 @@
 			<th data-options="field:'ck',checkbox:true"></th>
 			<th data-options="field:'orderId',align:'center',width:100">订单编号</th>
 			<th data-options="field:'custom',align:'center',width:100,formatter:formatCustom">订购客户</th>
-			<th data-options="field:'totalMoney',width:70,align:'center'">总价</th>
+			<th data-options="field:'totalMoney',width:70,align:'center',formatter:formatTotalMoney">总价</th>
 			<th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatOrderStatus">状态</th>
 			<th data-options="field:'orderDate',width:130,align:'center',formatter:TAOTAO.formatDateTime">订购日期</th>
 			<th data-options="field:'requestDate',width:130,align:'center',formatter:TAOTAO.formatDateTime">要求日期</th>
 			<th data-options="field:'note',width:100,align:'center', formatter:formatOrderNote">订单要求</th>
-			<th data-options="field:'image',width:100,align:'center', formatter:formatImg">相关图片</th>
+ 		    <!-- <th data-options="field:'',width:100,align:'center'">打印订单</th>
 			<th data-options="field:'file',width:180,align:'center', formatter:formatFile">订单附件</th>
+			-->	
         </tr>
     </thead>
 </table> 
@@ -35,6 +36,7 @@
 		<c:if test="${per=='order:edit' }" >
 		    <div style="float: left;">  
 		        <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="order_edit()">编辑</a>  
+		        <a href="#" class="easyui-linkbutton" plain="true" icon="icon-print" onclick="order_print()">打印</a>  		        
 		    </div>  
 		</c:if>
 		<c:if test="${per=='order:delete' }" >
@@ -64,21 +66,31 @@
 </div>  
 
 <div id="orderEditWindow" class="easyui-window" title="编辑订单" data-options="modal:true,closed:true,resizable:true,
-	iconCls:'icon-save',href:'order/edit'" style="width:65%;height:80%;padding:10px;">
+	iconCls:'icon-save',href:'order/edit'" style="width:70%;height:80%;padding:10px;">
 </div>
 <div id="orderAddWindow" class="easyui-window" title="添加订单" data-options="modal:true,closed:true,resizable:true,
-	iconCls:'icon-save',href:'order/add'" style="width:65%;height:80%;padding:10px;">
+	iconCls:'icon-save',href:'order/add'" style="width:70%;height:80%;padding:10px;">
 </div>
 
 <div id="orderCustomInfo" class="easyui-dialog" title="客户信息" data-options="modal:true,closed:true,resizable:true,
-	iconCls:'icon-save'" style="width:65%;height:80%;padding:10px;">
+	iconCls:'icon-save'" style="width:70%;height:80%;padding:10px;">
 	<form id="orderCustomEditForm" method="post">
 		<input type="hidden" name="customId"/>
 	    <table cellpadding="5">
 	        <tr>
 	            <td>客户名称:</td>
 	            <td><input class="easyui-textbox" type="text" name="customName" data-options="required:true"/></td>
-	        </tr>
+	        </tr>	        			
+	        <tr>
+				<td>账户余额:</td>
+				<td><input class="easyui-numberbox" type="text" name="balance"
+					data-options="min:-9999999,max:99999999,precision:2,required:true" /></td>
+			</tr>
+			<tr>
+				<td>欠瓶总数:</td>
+				<td><input class="easyui-numberbox" type="text"
+					name="dueBottle" /></td>
+			</tr>
 	        <tr>
 	            <td>客户全称:</td>
 	            <td><input class="easyui-textbox" type="text" name="fullName" style="width: 280px;"/></td>
@@ -122,44 +134,26 @@
 	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitOrderCustomEditForm()">提交</a>
 	</div>
 </div>
-<div id="orderProductInfo" class="easyui-dialog" title="产品信息" data-options="modal:true,closed:true,resizable:true,
-		iconCls:'icon-save'" style="width:65%;height:80%;padding:10px;">
-	<form id="orderProductEditForm" method="post">
-		<input type="hidden" name="productId"/>
-	    <table cellpadding="5">
-	        <tr>
-	            <td>产品名称:</td>
-	            <td><input class="easyui-textbox" type="text" name="productName" data-options="required:true"/></td>
-	        </tr>
-	        <tr>
-	            <td>产品种类:</td>
-	            <td><input class="easyui-textbox" type="text" name="productType" data-options="required:true"/></td>
-	        </tr>
-	        <tr>
-	            <td>产品状态:</td>
-	            <td>
-		            <select id="cc" class="easyui-combobox" name="status" data-options="required:true,width:150">
-						<option value="1">有效产品</option>
-						<option value="2">停产</option>
-					</select>
-				</td>
-	        </tr>
-	        <tr>
-	            <td>相关图片:</td>
-	            <td>
-	            <div style="padding-top: 12px"><span id="orderProductPicSpan"></span></div>
-	                 <input type="hidden" class="easyui-linkbutton orderProductPic" name="image"/>
-	            </td>
-	        </tr>
-	        <tr>
-	            <td>产品介绍:</td>
-	            <td><textarea style="width:800px;height:300px;visibility:hidden;" name="note"></textarea></td>
-	        </tr>
-	    </table>
-	</form>
-	<div style="padding:5px">
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitOrderProductEditForm()">提交</a>
-	</div>
+<div id="orderItemInfo" class="easyui-dialog" title="订单产品信息" data-options="modal:true,closed:true,resizable:true,
+		iconCls:'icon-save'" style="width:70%;height:80%;padding:10px;">
+		<table class="easyui-datagrid" id="orderItemsList" title="订购产品列表" data-options="singleSelect:false,
+		collapsible:true,
+	     pagination:false,
+	     rownumbers:true,
+	     method:'get',	
+	     height:'auto',
+	     width:'auto',     
+	     fitColumns:true">
+    <thead>
+        <tr>
+			<th data-options="field:'productId',align:'center'">产品名称</th>
+			<th data-options="field:'unit',align:'center'">单价</th>
+			<th data-options="field:'quantity',align:'center'">数量</th>
+			<th data-options="field:'unitPrice',align:'center'">订单总价</th>		
+        </tr>
+    </thead>
+</table> 
+	
 </div>
 <div id="orderNoteDialog" class="easyui-dialog" title="订单要求" data-options="modal:true,closed:true,resizable:true,
 		iconCls:'icon-save'" style="width:55%;height:65%;padding:10px">
@@ -177,38 +171,6 @@
 	</div>
 </div>
 <script>
-$('#orderList').datagrid({
-    view: detailview,
-    detailFormatter:function(index,row){
-        return '<div style="padding:2px"><table class="ddv"></table></div>';
-    },
-    onExpandRow: function(index,row){
-        var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
-        ddv.datagrid({
-            url:'orderItem/get_orderitems_by_orderId?searchValue='+row.orderId,
-            fitColumns:true,
-            singleSelect:true,
-            rownumbers:true,
-            loadMsg:'',
-            height:'auto',
-            columns:[[
-                {field:'productId',title:'产品名称',width:50},
-                {field:'unit',title:'单价',width:50},
-                {field:'quantity',title:'数量',width:50},
-                {field:'unitPrice',title:'总价',width:50}
-            ]],
-            onResize:function(){
-                $('#orderList').datagrid('fixDetailRowHeight',index);
-            },
-            onLoadSuccess:function(){
-                setTimeout(function(){
-                    $('#orderList').datagrid('fixDetailRowHeight',index);
-                },0);
-            }
-        });
-        $('#orderList').datagrid('fixDetailRowHeight',index);
-    }
-});
 function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发此函数  
 	if(value == null || value == ''){
 		
@@ -220,14 +182,15 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 				{field : 'ck', checkbox:true },
 				{field : 'orderId', width : 100, align:'center', title : '订单编号'},
 				{field : 'custom', width : 100, align : 'center', title : '订购客户', formatter:formatCustom},
-				{field : 'totalMoney', width : 70, title : '总价', align:'center'},
+				{field : 'totalMoney', width : 70, title : '总价', align:'center', formatter:formatTotalMoney},
 				{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus},
 				{field : 'orderDate', width : 130, title : '订购日期', align:'center', formatter:TAOTAO.formatDateTime},
 				{field : 'requestDate', width : 130, title : '要求日期', align:'center',
 					formatter:TAOTAO.formatDateTime},
 				{field : 'note', width : 100, title : '订单要求', align:'center', formatter:formatOrderNote},
-				{field : 'image', width : 100, title : '相关图片', align:'center', formatter:formatImg},
-				{field : 'file',  width : 100, title : '订单附件', align:'center', formatter:formatFile}
+			   // {field : 'image', width : 100, title : '相关图片', align:'center', formatter:formatImg},
+				//{field : 'file',  width : 100, title : '订单附件', align:'center', formatter:formatFile}
+				
 	        ] ],  
 	    });
 	}else{
@@ -239,15 +202,14 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 	             	{field : 'ck', checkbox:true }, 
 	             	{field : 'orderId', width : 100, title : '订单编号', align:'center'},
 	             	{field : 'custom', width : 100, align : 'center', title : '订购客户', formatter:formatCustom},
-					{field : 'totalMoney', width : 70, title : '总价', align:'center'},
+					{field : 'totalMoney', width : 70, title : '总价', align:'center', formatter:formatTotalMoney},
 	             	{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus}, 
 	             	{field : 'orderDate', width : 130, title : '订购日期', align:'center',
 						formatter:TAOTAO.formatDateTime},
 	             	{field : 'requestDate', width : 130, title : '要求日期', align:'center',
 						formatter:TAOTAO.formatDateTime},
 	             	{field : 'note', width : 100, title : '订单要求', align:'center', formatter:formatOrderNote}, 
-	             	{field : 'image', width : 100, title : '相关图片', align:'center', formatter:formatImg}, 
-	             	{field : 'file',  width : 100, title : '订单附件', align:'center', formatter:formatFile}
+
 	        ] ],  
 	    });
 	}
@@ -263,6 +225,16 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 		if(value !=null && value != ''){
 			var row = onOrderClickRow(index); 
 			return "<a href=javascript:openOrderCustom("+index+")>"+value.customName+"</a>";
+		}else{
+			return "无";
+		}
+	};  
+	
+	//格式化详细产品信息
+	function formatTotalMoney(value, row, index){ 
+		if(value !=null && value != ''){
+			var row = onOrderClickRow(index); 
+			return "<a href=javascript:openOrderProduct("+index+")>"+row.totalMoney+"</a>";
 		}else{
 			return "无";
 		}
@@ -337,25 +309,20 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 	//打开产品信息对话框
 	function  openOrderProduct(index){ 
 		var row = onOrderClickRow(index);
-		$("#orderProductInfo").dialog({
+		$("#orderItemInfo").dialog({
     		onOpen :function(){
-    			$.get('orderItem/get_orderitems_by_orderId?searchValue='+row.orderId,'',function(data){
+    			$.get( 'orderItem/get_orderitems_by_orderId?searchValue='+row.orderId,'',function(data){
     				
-    				orderProductEditor = TAOTAO.createEditor("#orderProductEditForm [name=note]");	
 		    		//回显数据
-		    		$("#orderProductEditForm").form("load", data);
-		    		orderProductEditor.html(data.note);
+		    		$("#orderItemsList").datagrid("loadData", data);
 		    		
-		    		//加载图片
- 	        		initOrderProductPic({
-           				"pics" : data.image,
-           			});
+	
     	    	});
     		},
 			onBeforeClose: function (event, ui) {
 				// 关闭Dialog前移除编辑器
-			   	KindEditor.remove("#orderProductEditForm [name=note]");
-			   	clearManuSpan();
+			   	//KindEditor.remove("#orderProductEditForm [name=note]");
+			   	//clearManuSpan();
 			}
     	}).dialog("open");
 	};
@@ -543,7 +510,31 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
       	});
     }
     
-    function order_reload(){
-    	$("#orderList").datagrid("reload");
-    }
+
+	function order_print() {
+		//$.get("order/edit_judge", '', function(data) {
+			//if (data.msg != null) {
+			//	$.messager.alert('提示', data.msg);
+			//} else {
+				debugger;
+				var ids = getOrderSelectionsIds();
+
+				if (ids.length == 0) {
+					$.messager.alert('提示', '必须选择一个订单才能继续打印!');
+					return;
+				}
+				if (ids.indexOf(',') > 0) {
+					$.messager.alert('提示', '只能选择一个订单进行打印!');
+					return;
+				}
+				
+				window.open('order/downloadPDF/'+ids); 
+
+			//}
+		//});
+	}
+
+	function order_reload() {
+		$("#orderList").datagrid("reload");
+	}
 </script>

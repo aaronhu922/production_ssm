@@ -1,5 +1,7 @@
 package org.hqu.production_ms.service;
 
+import java.util.List;
+
 import org.hqu.production_ms.domain.OrderItem;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
@@ -17,5 +19,7 @@ public interface OrderItemService {
 
     //根据订单id查找订单详细信息
     EUDataGridResult searchOrderItemByOrderId(String orderId) throws Exception;
+
+	List<OrderItem> getOrderItemsByOrderId(String orderId) throws Exception;
 
 }

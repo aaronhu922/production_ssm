@@ -23,11 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * created on 2016年9月6日 
- *
+ * 
  * 自定义shiro realm
  *
- * @author  megagao
+ * @author  aahu
  * @version  0.0.1
  */
 public class CustomRealm extends AuthorizingRealm {

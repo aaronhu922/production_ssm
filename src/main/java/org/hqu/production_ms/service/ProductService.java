@@ -29,6 +29,8 @@ public interface ProductService {
     //更新备注
     CustomResult updateNote(Product product) throws Exception;
     
+    List<Product> searchProductByProductName(String productName) throws Exception;
+    
     EUDataGridResult searchProductByProductName(int page, int rows, 
     		String productName) throws Exception;
 

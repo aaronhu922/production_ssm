@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `production_ssm` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `production_ssm`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: localhost    Database: production_ssm
@@ -46,7 +44,7 @@ CREATE TABLE `c_order` (
 
 LOCK TABLES `c_order` WRITE;
 /*!40000 ALTER TABLE `c_order` DISABLE KEYS */;
-INSERT INTO `c_order` VALUES ('1','1','2018-01-19 00:00:00','2018-01-19 00:00:00','hello',529.00,NULL,NULL,2),('2','1','2018-01-19 00:00:00','2018-01-19 00:00:00','2',8.00,NULL,NULL,1);
+INSERT INTO `c_order` VALUES ('00001','1','2018-02-28 12:38:39','2018-02-28 12:38:39',NULL,2000.00,NULL,NULL,NULL),('201802102997','12','2018-02-09 16:00:00','2018-02-09 16:00:00',NULL,0.00,NULL,NULL,1),('201802103548','12','2018-02-09 16:00:00','2018-02-09 16:00:00',NULL,100.00,NULL,NULL,1),('201802103549','12','2018-02-09 16:00:00','2018-02-09 16:00:00',NULL,0.00,NULL,NULL,1),('20180228127','12','2018-02-28 12:26:54','2018-02-28 16:00:00','订单电话15895901300\r\n地址：淄博市第一人民医院',100.00,NULL,NULL,1),('201802287325','3','2018-02-28 12:48:05','2018-02-28 16:00:00','明天配送',1000.00,NULL,NULL,1),('201802287326','3','2018-02-27 16:00:00','2018-02-27 16:00:00',NULL,1500.00,NULL,NULL,1);
 /*!40000 ALTER TABLE `c_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +78,7 @@ CREATE TABLE `custom` (
 
 LOCK TABLES `custom` WRITE;
 /*!40000 ALTER TABLE `custom` DISABLE KEYS */;
-INSERT INTO `custom` VALUES ('1','胡永',5000.00,50,'sldkfj','d',NULL,'huyong@14.com',NULL,'12354548',NULL,NULL),('12','张三',0.00,12,'不知道是谁公司','哈哈哈','02555','huyong@gmai.com','huyong','15555555555',1,'大款');
+INSERT INTO `custom` VALUES ('1','胡永',5000.00,50,'sldkfj','d',NULL,'huyong@14.com',NULL,'12354548',NULL,NULL),('12','张三',-642.00,41,'不知道是谁公司','哈哈哈','02555','huyong@gmai.com','huyong','15555555555',1,'大款'),('3','淄博机械',-2500.00,25,'淄博市第一机械制造','人民路1号',NULL,'huyong@test.com','胡永','15895901300',1,'好好学习 天天向上。');
 /*!40000 ALTER TABLE `custom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,6 +261,32 @@ LOCK TABLES `device_type` WRITE;
 /*!40000 ALTER TABLE `device_type` DISABLE KEYS */;
 INSERT INTO `device_type` VALUES ('01','加工设备','中','A','福建百斯特贸易有限公司','福建永辉机械有限公司',11,'2018-08-08 08:08:08'),('02','冷暖设备','中','B','珠海格力有限公司','珠海格力有限公司',12,'2018-08-08 08:08:08'),('03','传送设备','小','C','福建永辉机械有限公司','福建永辉机械有限公司',13,'2018-08-08 08:08:08'),('04','清洗设备','大','D','福建百斯特贸易有限公司','福建永辉机械有限公司',14,'2018-08-08 08:08:08'),('05','打磨设备','中','E','厦门天德设备有限公司','厦门海科设备有限公司',15,'2018-08-08 08:08:08'),('06','冲压设备','大','A','厦门天德设备公司','湖南三一重工',20,'2016-12-24 11:58:46');
 /*!40000 ALTER TABLE `device_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `due_bottle`
+--
+
+DROP TABLE IF EXISTS `due_bottle`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `due_bottle` (
+  `uid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `custom_id` varchar(40) NOT NULL COMMENT 'Customer ID',
+  `product_id` varchar(40) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `due_bottle`
+--
+
+LOCK TABLES `due_bottle` WRITE;
+/*!40000 ALTER TABLE `due_bottle` DISABLE KEYS */;
+INSERT INTO `due_bottle` VALUES (13,'1','空气瓶',51),(14,'12','氧气瓶',0),(15,'12','空气瓶',41),(16,'1','氧气瓶',30),(23,'00001','氧气瓶',10),(24,'00001','氧气瓶',10),(25,'00001','氧气瓶',10),(26,'00001','氧气瓶',10),(27,'00001','氧气瓶',10),(28,'00001','氧气瓶',10),(29,'3','空气瓶',25);
+/*!40000 ALTER TABLE `due_bottle` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -511,7 +535,7 @@ CREATE TABLE `order_item` (
   PRIMARY KEY (`uid`),
   KEY `FK_Reference_38` (`order_id`),
   CONSTRAINT `FK_Reference_38` FOREIGN KEY (`order_id`) REFERENCES `c_order` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Order Items table';
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='Order Items table';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -520,7 +544,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
-INSERT INTO `order_item` VALUES (7,'1','二氧化碳','23.0',23,529.00),(8,'2','杜瓦瓶','2.0',2,4.00),(9,'2','二氧化碳','2.0',2,4.00);
+INSERT INTO `order_item` VALUES (39,'201802103548','空气','10.0',10,100.00),(40,'201802103548','氧气瓶','0.0',11,0.00),(41,'201802103548','空气瓶','0.0',22,0.00),(42,'201802103549','氧气瓶','0.0',-11,0.00),(43,'201802103549','空气瓶','0.0',-2,0.00),(46,'201802102997','空气瓶','0.0',11,0.00),(57,'20180228127','空气瓶','0.0',10,0.00),(58,'20180228127','空气','10.0',10,100.00),(61,'00001','00005','瓶',22,10.00),(62,'201802287325','空气瓶','0.0',10,0.00),(63,'201802287325','空气','100.0',10,1000.00),(64,'201802287326','空气瓶','0.0',15,0.00),(65,'201802287326','空气','100.0',15,1500.00);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -646,7 +670,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('1','二氧化碳','气体',34.00,'t',NULL,'二氧化碳',1),('12','sdaf,','212',12.00,'ge',NULL,NULL,1),('123','sadf:fefe','fe',122.00,'f',NULL,NULL,1),('7','杜瓦瓶','瓶',0.00,'个',NULL,NULL,1);
+INSERT INTO `product` VALUES ('1','空气','1',122.00,'瓶',NULL,NULL,1),('2','空气瓶','3',0.00,'个',NULL,'啊是短发岁的',1),('3','氧气瓶','3',0.00,'个',NULL,NULL,1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -677,7 +701,7 @@ CREATE TABLE `sys_permission` (
 
 LOCK TABLES `sys_permission` WRITE;
 /*!40000 ALTER TABLE `sys_permission` DISABLE KEYS */;
-INSERT INTO `sys_permission` VALUES (1,'权限','permission','','order:edit',0,'0/','0','1'),(10,'订单管理','menu','',NULL,1,'0/1/','1.','1'),(11,'订单新增','permission','order/add_judge','order:add',11,'0/1/11/','','1'),(12,'订单修改','permission','order/edit_judge','order:edit',11,'0/1/11/','','1'),(13,'订单删除','permission','order/delete_judge','order:delete',11,'0/1/11/','','1'),(20,'客户管理','menu','','',1,'0/1/','2.','1'),(21,'客户新增','permission','','custom:add',21,'0/1/21/','','1'),(22,'客户修改','permission','','custom:edit',21,'0/1/21/','','1'),(23,'客户删除','permission','','custom:delete',21,'0/1/21/','','1'),(30,'产品管理','menu',NULL,NULL,NULL,NULL,NULL,'1'),(31,'产品新增','permission',NULL,'product:add',NULL,NULL,NULL,'1'),(32,'产品修改','permission',NULL,'product:edit',NULL,NULL,NULL,'1'),(33,'产品删除','permission',NULL,'product:delete',NULL,NULL,NULL,'1'),(40,'部门管理','menu',NULL,NULL,NULL,NULL,NULL,'1'),(41,'部门新增','permission',NULL,'department:add',NULL,NULL,NULL,'1'),(42,'部门修改','permission',NULL,'department:edit',NULL,NULL,NULL,'1'),(43,'部门删除','permission',NULL,'department:delete',NULL,NULL,NULL,'1'),(50,'员工管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(51,'员工新增','permission',NULL,'employee:add',NULL,NULL,NULL,NULL),(52,'员工修改','permission',NULL,'employee:edit',NULL,NULL,NULL,NULL),(53,'员工删除','permission',NULL,'employee:delete',NULL,NULL,NULL,NULL),(60,'作业管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(61,'作业新增','permission',NULL,'work:add',NULL,NULL,NULL,NULL),(62,'作业修改','permission',NULL,'work:edit',NULL,NULL,NULL,NULL),(63,'作业删除','permission',NULL,'work:delete',NULL,NULL,NULL,NULL),(70,'生产计划管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(71,'生产计划新增','permission',NULL,'manufacture:add',NULL,NULL,NULL,NULL),(72,'生产计划修改','permission',NULL,'manufacture:edit',NULL,NULL,NULL,NULL),(73,'生产计划删除','permission',NULL,'manufacture:delete',NULL,NULL,NULL,NULL),(80,'生产派工管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(81,'生产派工新增','permission',NULL,'task:add',NULL,NULL,NULL,NULL),(82,'生产派工修改','permission',NULL,'task:edit',NULL,NULL,NULL,NULL),(83,'生产派工删除','permission',NULL,'task:delete',NULL,NULL,NULL,NULL),(90,'工艺管理','menu',NULL,'',NULL,NULL,NULL,NULL),(91,'工艺新增','permission',NULL,'technology:add',NULL,NULL,NULL,NULL),(92,'工艺修改','permission',NULL,'technology:edit',NULL,NULL,NULL,NULL),(93,'工艺删除','permission',NULL,'technology:delete',NULL,NULL,NULL,NULL),(100,'工序管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(101,'工序新增','permission',NULL,'process:add',NULL,NULL,NULL,NULL),(102,'工序修改','permission',NULL,'process:edit',NULL,NULL,NULL,NULL),(103,'工序删除','permission',NULL,'process:delete',NULL,NULL,NULL,NULL),(110,'工艺计划管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(111,'工艺计划新增','permission',NULL,'technologyPlan:add',NULL,NULL,NULL,NULL),(112,'工艺计划修改','permission',NULL,'technologyPlan:edit',NULL,NULL,NULL,NULL),(113,'工艺计划删除','permission',NULL,'technologyPlan:delete',NULL,NULL,NULL,NULL),(120,'工艺要求管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(121,'工艺要求新增','permission',NULL,'technologyRequirement:add',NULL,NULL,NULL,NULL),(122,'工艺要求修改','permission',NULL,'technologyRequirement:edit',NULL,NULL,NULL,NULL),(123,'工艺要求删除','permission',NULL,'technologyRequirement:delete',NULL,NULL,NULL,NULL),(130,'成品计数质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(131,'成品计数质检新增','permission',NULL,'fCountCheck:add',NULL,NULL,NULL,NULL),(132,'成品计数质检修改','permission',NULL,'fCountCheck:edit',NULL,NULL,NULL,NULL),(133,'成品计数质检删除','permission',NULL,'fCountCheck:delete',NULL,NULL,NULL,NULL),(140,'成品计量质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(141,'成品计量质检新增','permission',NULL,'fMeasureCheck:add',NULL,NULL,NULL,NULL),(142,'成品计量质检修改','permission',NULL,'fMeasureCheck:edit',NULL,NULL,NULL,NULL),(143,'成品计量质检删除','permission',NULL,'fMeasureCheck:delete',NULL,NULL,NULL,NULL),(150,'工序计数质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(151,'工序计数质检新增','permission',NULL,'pCountCheck:add',NULL,NULL,NULL,NULL),(152,'工序计数质检修改','permission',NULL,'pCountCheck:edit',NULL,NULL,NULL,NULL),(153,'工序计数质检删除','permission',NULL,'pCountCheck:delete',NULL,NULL,NULL,NULL),(160,'工序计量质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(161,'工序计量质检新增','permission',NULL,'pMeasureCheck:add',NULL,NULL,NULL,NULL),(162,'工序计量质检修改','permission',NULL,'pMeasureCheck:edit',NULL,NULL,NULL,NULL),(163,'工序计量质检删除','permission',NULL,'pMeasureCheck:delete',NULL,NULL,NULL,NULL),(170,'不合格品申请','menu',NULL,NULL,NULL,NULL,NULL,NULL),(171,'不合格品申请新增','permission',NULL,'unqualify:add',NULL,NULL,NULL,NULL),(172,'不合格品申请修改','permission',NULL,'unqualify:edit',NULL,NULL,NULL,NULL),(173,'不合格品申请删除','permission',NULL,'unqualify:delete',NULL,NULL,NULL,NULL),(180,'物料管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(181,'物料新增','permission',NULL,'material:add',NULL,NULL,NULL,NULL),(182,'物料修改','permission',NULL,'material:edit',NULL,NULL,NULL,NULL),(183,'物料删除','permission',NULL,'material:delete',NULL,NULL,NULL,NULL),(190,'物料收入','menu',NULL,NULL,NULL,NULL,NULL,NULL),(191,'物料收入新增','permission',NULL,'materialReceive:add',NULL,NULL,NULL,NULL),(192,'物料收入修改','permission',NULL,'materialReceive:edit',NULL,NULL,NULL,NULL),(193,'物料收入删除','permission',NULL,'materialReceive:delete',NULL,NULL,NULL,NULL),(200,'用户管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(201,'用户新增','permission',NULL,'user:add',NULL,NULL,NULL,NULL),(202,'用户修改','permission',NULL,'user:edit',NULL,NULL,NULL,NULL),(203,'用户删除','permission',NULL,'user:delete',NULL,NULL,NULL,NULL),(210,'角色管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(211,'角色新增','permission',NULL,'role:add',NULL,NULL,NULL,NULL),(212,'角色修改','permission',NULL,'role:edit',NULL,NULL,NULL,NULL),(213,'角色删除','permission',NULL,'role:delete',NULL,NULL,NULL,NULL),(220,'物料消耗','menu',NULL,NULL,NULL,NULL,NULL,NULL),(221,'物料消耗新增','permission',NULL,'materialConsume:add',NULL,NULL,NULL,NULL),(222,'物料消耗修改','permission',NULL,'materialConsume:edit',NULL,NULL,NULL,NULL),(223,'物料消耗删除','permission',NULL,'materialConsume:delete',NULL,NULL,NULL,NULL),(230,'设备管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(231,'设备新增','permission',NULL,'device:add',NULL,NULL,NULL,NULL),(232,'设备修改','permission',NULL,'device:edit',NULL,NULL,NULL,NULL),(233,'设备删除','permission',NULL,'device:delete',NULL,NULL,NULL,NULL),(240,'设备例检管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(241,'设备例检新增','permission',NULL,'deviceCheck:add',NULL,NULL,NULL,NULL),(242,'设备例检修改','permission',NULL,'deviceCheck:edit',NULL,NULL,NULL,NULL),(243,'设备例检删除','permission',NULL,'deviceCheck:delete',NULL,NULL,NULL,NULL),(250,'设备故障管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(251,'设备故障新增','permission',NULL,'deviceFault:add',NULL,NULL,NULL,NULL),(252,'设备故障修改','permission',NULL,'deviceFault:edit',NULL,NULL,NULL,NULL),(253,'设备故障删除','permission',NULL,'deviceFault:delete',NULL,NULL,NULL,NULL),(260,'设备维修管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(261,'设备维修新增','permission',NULL,'deviceMaintain:add',NULL,NULL,NULL,NULL),(262,'设备维修修改','permission',NULL,'deviceMaintain:edit',NULL,NULL,NULL,NULL),(263,'设备维修删除','permission',NULL,'deviceMaintain:delete',NULL,NULL,NULL,NULL),(270,'设备种类管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(271,'设备种类新增','permission',NULL,'deviceType:add',NULL,NULL,NULL,NULL),(272,'设备种类修改','permission',NULL,'deviceType:edit',NULL,NULL,NULL,NULL),(273,'设备种类删除','permission',NULL,'deviceType:delete',NULL,NULL,NULL,NULL);
+INSERT INTO `sys_permission` VALUES (1,'权限','permission','','order:edit',0,'0/','0','1'),(10,'订单管理','menu','',NULL,1,'0/1/','1.','1'),(11,'订单新增','permission','order/add_judge','order:add',11,'0/1/11/','','1'),(12,'订单修改','permission','order/edit_judge','order:edit',11,'0/1/11/','','1'),(13,'订单删除','permission','order/delete_judge','order:delete',11,'0/1/11/','','1'),(20,'客户管理','menu','','',1,'0/1/','2.','1'),(21,'客户新增','permission','','custom:add',21,'0/1/21/','','1'),(22,'客户修改','permission','','custom:edit',21,'0/1/21/','','1'),(23,'客户删除','permission','','custom:delete',21,'0/1/21/','','1'),(30,'产品管理','menu',NULL,NULL,NULL,NULL,NULL,'1'),(31,'产品新增','permission',NULL,'product:add',NULL,NULL,NULL,'1'),(32,'产品修改','permission',NULL,'product:edit',NULL,NULL,NULL,'1'),(33,'产品删除','permission',NULL,'product:delete',NULL,NULL,NULL,'1'),(40,'部门管理','menu',NULL,NULL,NULL,NULL,NULL,'1'),(41,'部门新增','permission',NULL,'department:add',NULL,NULL,NULL,'1'),(42,'部门修改','permission',NULL,'department:edit',NULL,NULL,NULL,'1'),(43,'部门删除','permission',NULL,'department:delete',NULL,NULL,NULL,'1'),(50,'员工管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(51,'员工新增','permission',NULL,'employee:add',NULL,NULL,NULL,NULL),(52,'员工修改','permission',NULL,'employee:edit',NULL,NULL,NULL,NULL),(53,'员工删除','permission',NULL,'employee:delete',NULL,NULL,NULL,NULL),(60,'作业管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(61,'作业新增','permission',NULL,'work:add',NULL,NULL,NULL,NULL),(62,'作业修改','permission',NULL,'work:edit',NULL,NULL,NULL,NULL),(63,'作业删除','permission',NULL,'work:delete',NULL,NULL,NULL,NULL),(70,'生产计划管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(71,'生产计划新增','permission',NULL,'manufacture:add',NULL,NULL,NULL,NULL),(72,'生产计划修改','permission',NULL,'manufacture:edit',NULL,NULL,NULL,NULL),(73,'生产计划删除','permission',NULL,'manufacture:delete',NULL,NULL,NULL,NULL),(80,'生产派工管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(81,'生产派工新增','permission',NULL,'task:add',NULL,NULL,NULL,NULL),(82,'生产派工修改','permission',NULL,'task:edit',NULL,NULL,NULL,NULL),(83,'生产派工删除','permission',NULL,'task:delete',NULL,NULL,NULL,NULL),(90,'工艺管理','menu',NULL,'',NULL,NULL,NULL,NULL),(91,'工艺新增','permission',NULL,'technology:add',NULL,NULL,NULL,NULL),(92,'工艺修改','permission',NULL,'technology:edit',NULL,NULL,NULL,NULL),(93,'工艺删除','permission',NULL,'technology:delete',NULL,NULL,NULL,NULL),(100,'财务管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(101,'工序新增','permission',NULL,'process:add',NULL,NULL,NULL,NULL),(102,'工序修改','permission',NULL,'process:edit',NULL,NULL,NULL,NULL),(103,'工序删除','permission',NULL,'process:delete',NULL,NULL,NULL,NULL),(110,'工艺计划管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(111,'工艺计划新增','permission',NULL,'technologyPlan:add',NULL,NULL,NULL,NULL),(112,'工艺计划修改','permission',NULL,'technologyPlan:edit',NULL,NULL,NULL,NULL),(113,'工艺计划删除','permission',NULL,'technologyPlan:delete',NULL,NULL,NULL,NULL),(120,'工艺要求管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(121,'工艺要求新增','permission',NULL,'technologyRequirement:add',NULL,NULL,NULL,NULL),(122,'工艺要求修改','permission',NULL,'technologyRequirement:edit',NULL,NULL,NULL,NULL),(123,'工艺要求删除','permission',NULL,'technologyRequirement:delete',NULL,NULL,NULL,NULL),(130,'成品计数质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(131,'成品计数质检新增','permission',NULL,'fCountCheck:add',NULL,NULL,NULL,NULL),(132,'成品计数质检修改','permission',NULL,'fCountCheck:edit',NULL,NULL,NULL,NULL),(133,'成品计数质检删除','permission',NULL,'fCountCheck:delete',NULL,NULL,NULL,NULL),(140,'成品计量质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(141,'成品计量质检新增','permission',NULL,'fMeasureCheck:add',NULL,NULL,NULL,NULL),(142,'成品计量质检修改','permission',NULL,'fMeasureCheck:edit',NULL,NULL,NULL,NULL),(143,'成品计量质检删除','permission',NULL,'fMeasureCheck:delete',NULL,NULL,NULL,NULL),(150,'工序计数质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(151,'工序计数质检新增','permission',NULL,'pCountCheck:add',NULL,NULL,NULL,NULL),(152,'工序计数质检修改','permission',NULL,'pCountCheck:edit',NULL,NULL,NULL,NULL),(153,'工序计数质检删除','permission',NULL,'pCountCheck:delete',NULL,NULL,NULL,NULL),(160,'工序计量质检','menu',NULL,NULL,NULL,NULL,NULL,NULL),(161,'工序计量质检新增','permission',NULL,'pMeasureCheck:add',NULL,NULL,NULL,NULL),(162,'工序计量质检修改','permission',NULL,'pMeasureCheck:edit',NULL,NULL,NULL,NULL),(163,'工序计量质检删除','permission',NULL,'pMeasureCheck:delete',NULL,NULL,NULL,NULL),(170,'不合格品申请','menu',NULL,NULL,NULL,NULL,NULL,NULL),(171,'不合格品申请新增','permission',NULL,'unqualify:add',NULL,NULL,NULL,NULL),(172,'不合格品申请修改','permission',NULL,'unqualify:edit',NULL,NULL,NULL,NULL),(173,'不合格品申请删除','permission',NULL,'unqualify:delete',NULL,NULL,NULL,NULL),(180,'物料管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(181,'物料新增','permission',NULL,'material:add',NULL,NULL,NULL,NULL),(182,'物料修改','permission',NULL,'material:edit',NULL,NULL,NULL,NULL),(183,'物料删除','permission',NULL,'material:delete',NULL,NULL,NULL,NULL),(190,'物料收入','menu',NULL,NULL,NULL,NULL,NULL,NULL),(191,'物料收入新增','permission',NULL,'materialReceive:add',NULL,NULL,NULL,NULL),(192,'物料收入修改','permission',NULL,'materialReceive:edit',NULL,NULL,NULL,NULL),(193,'物料收入删除','permission',NULL,'materialReceive:delete',NULL,NULL,NULL,NULL),(200,'用户管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(201,'用户新增','permission',NULL,'user:add',NULL,NULL,NULL,NULL),(202,'用户修改','permission',NULL,'user:edit',NULL,NULL,NULL,NULL),(203,'用户删除','permission',NULL,'user:delete',NULL,NULL,NULL,NULL),(210,'角色管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(211,'角色新增','permission',NULL,'role:add',NULL,NULL,NULL,NULL),(212,'角色修改','permission',NULL,'role:edit',NULL,NULL,NULL,NULL),(213,'角色删除','permission',NULL,'role:delete',NULL,NULL,NULL,NULL),(220,'物料消耗','menu',NULL,NULL,NULL,NULL,NULL,NULL),(221,'物料消耗新增','permission',NULL,'materialConsume:add',NULL,NULL,NULL,NULL),(222,'物料消耗修改','permission',NULL,'materialConsume:edit',NULL,NULL,NULL,NULL),(223,'物料消耗删除','permission',NULL,'materialConsume:delete',NULL,NULL,NULL,NULL),(230,'设备管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(231,'设备新增','permission',NULL,'device:add',NULL,NULL,NULL,NULL),(232,'设备修改','permission',NULL,'device:edit',NULL,NULL,NULL,NULL),(233,'设备删除','permission',NULL,'device:delete',NULL,NULL,NULL,NULL),(240,'设备例检管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(241,'设备例检新增','permission',NULL,'deviceCheck:add',NULL,NULL,NULL,NULL),(242,'设备例检修改','permission',NULL,'deviceCheck:edit',NULL,NULL,NULL,NULL),(243,'设备例检删除','permission',NULL,'deviceCheck:delete',NULL,NULL,NULL,NULL),(250,'设备故障管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(251,'设备故障新增','permission',NULL,'deviceFault:add',NULL,NULL,NULL,NULL),(252,'设备故障修改','permission',NULL,'deviceFault:edit',NULL,NULL,NULL,NULL),(253,'设备故障删除','permission',NULL,'deviceFault:delete',NULL,NULL,NULL,NULL),(260,'设备维修管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(261,'设备维修新增','permission',NULL,'deviceMaintain:add',NULL,NULL,NULL,NULL),(262,'设备维修修改','permission',NULL,'deviceMaintain:edit',NULL,NULL,NULL,NULL),(263,'设备维修删除','permission',NULL,'deviceMaintain:delete',NULL,NULL,NULL,NULL),(270,'设备种类管理','menu',NULL,NULL,NULL,NULL,NULL,NULL),(271,'设备种类新增','permission',NULL,'deviceType:add',NULL,NULL,NULL,NULL),(272,'设备种类修改','permission',NULL,'deviceType:edit',NULL,NULL,NULL,NULL),(273,'设备种类删除','permission',NULL,'deviceType:delete',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -702,7 +726,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES ('001','超级管理员','1'),('002','订单管理员','1'),('004','物料管理员','1'),('005','普通用户','1'),('007','设备管理员','1');
+INSERT INTO `sys_role` VALUES ('001','超级管理员','1'),('002','订单管理员','1'),('005','普通用户','1');
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -727,7 +751,7 @@ CREATE TABLE `sys_role_permission` (
 
 LOCK TABLES `sys_role_permission` WRITE;
 /*!40000 ALTER TABLE `sys_role_permission` DISABLE KEYS */;
-INSERT INTO `sys_role_permission` VALUES ('1456115611515','002','11,12,13,201,202,203,'),('147729449886163','15615615151','11,12,13,231,232,233,271,273,'),('147737863632731','005','11,33,81,83,91,93,101,102,103,121,192,131,133,151,153,173,273,252,51,53,'),('148007157091762','004','181,182,183,191,192,193,221,222,223,'),('148255367614063','007',NULL),('149122370655248','31931',NULL),('149122382565714','424',NULL),('149122469890916','3213',NULL),('149122510431476','3214321',NULL),('149122513769244','213213213','11,12,13,'),('ebc8a441-c6f9-11e4-b137-0adc305c3f21','001','11,12,13,21,22,23,31,32,33,61,62,63,71,72,73,81,82,83,91,92,93,101,102,103,111,112,113,121,122,123,181,182,183,191,192,193,221,222,223,131,132,133,141,142,143,151,152,153,161,162,163,171,172,173,231,232,233,271,272,273,241,242,243,251,252,253,261,262,263,41,42,43,51,52,53,201,202,203,211,212,213,');
+INSERT INTO `sys_role_permission` VALUES ('1456115611515','002','11,12,13,'),('147729449886163','15615615151','11,12,13,231,232,233,271,273,'),('147737863632731','005','11,'),('148007157091762','004','181,182,183,191,192,193,221,222,223,'),('148255367614063','007',NULL),('149122370655248','31931',NULL),('149122382565714','424',NULL),('149122469890916','3213',NULL),('149122510431476','3214321',NULL),('149122513769244','213213213','11,12,13,'),('ebc8a441-c6f9-11e4-b137-0adc305c3f21','001','11,12,13,21,22,23,31,32,33,61,62,63,71,72,73,81,82,83,91,92,93,101,102,103,111,112,113,121,122,123,181,182,183,191,192,193,221,222,223,131,132,133,141,142,143,151,152,153,161,162,163,171,172,173,231,232,233,271,272,273,241,242,243,251,252,253,261,262,263,41,42,43,51,52,53,201,202,203,211,212,213,');
 /*!40000 ALTER TABLE `sys_role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -980,4 +1004,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-19 15:47:00
+-- Dump completed on 2018-02-28 22:33:23

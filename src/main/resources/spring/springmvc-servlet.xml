@@ -21,6 +21,12 @@
 	<!-- 使用spring组件扫描 -->
 	<context:component-scan base-package="org.hqu.production_ms.controller" /> 
 	
+	
+	<bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="basename" value="views" />
+		<property name="order" value="0" />
+	</bean>
+	
 	<!-- 配置内部资源视图解析器，要求将jstl的包加到classpath -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

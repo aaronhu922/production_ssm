@@ -82,6 +82,11 @@ public class COrderTest {
 //			}
 //			
 
+			List<COrderVO> corder = mapper.searchOrderByOrderIdDeep("00001");
+			assertEquals(1, result.size());
+			assertEquals("胡永", corder.get(0).getCustom().getCustomName());
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

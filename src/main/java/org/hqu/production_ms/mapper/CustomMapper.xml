@@ -49,6 +49,14 @@
 		WHERE
 		custom_id = #{customId,jdbcType=VARCHAR}
 	</update>
+	
+		<!-- 修改备注 -->
+	<update id="updateBalanceAndBottleCount" parameterType="org.hqu.production_ms.domain.Custom">
+		update custom
+		set balance = #{balance,jdbcType=DECIMAL},
+		due_bottle = #{dueBottle,jdbcType=INTEGER}		
+		where custom_id = #{customId,jdbcType=VARCHAR}
+	</update>
 
 	<select id="searchCustomByCustomId" parameterType="string"
 		resultMap="BaseResultMap">

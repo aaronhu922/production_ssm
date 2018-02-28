@@ -19,10 +19,17 @@
 				<td><input class="easyui-textbox" type="text"
 					name="productName" data-options="required:true"></input></td>
 			</tr>
-			<tr>
+			
+            <tr>
 				<td>产品种类:</td>
-				<td><input class="easyui-textbox" type="text"
-					name="productType" data-options="required:true"></input></td>
+				<td><select id="cc" class="easyui-combobox" name="productType"
+					panelHeight="auto"
+					data-options="required:true, width:100, editable:false">
+						<option value="1">气体</option>
+						<option value="2">液体</option>
+						<option value="3">容器</option>
+						<option value="4">其他</option>
+				</select></td>
 			</tr>
 			<tr>
 				<td>单价:</td>

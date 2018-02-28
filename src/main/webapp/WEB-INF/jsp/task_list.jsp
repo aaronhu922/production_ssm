@@ -9,7 +9,7 @@
         <tr>
         	<th data-options="field:'ck',checkbox:true"></th>
         	<th data-options="field:'taskId',align:'center',width:100">
-				生产派工编号
+				派送编号
 			</th>
             <th data-options="field:'workId',align:'center',width:100,formatter:formatTaskWork">
 				作业编号

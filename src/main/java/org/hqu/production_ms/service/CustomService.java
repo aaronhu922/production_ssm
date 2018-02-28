@@ -28,6 +28,9 @@ public interface CustomService {
     
     //更新备注
     CustomResult updateNote(Custom custom) throws Exception;
+    
+    //Update the balance and bottle number
+    CustomResult updateBalanceAndBottleCount(Custom custom) throws Exception;
 
     CustomResult changeStatus(String[] ids) throws Exception;
     

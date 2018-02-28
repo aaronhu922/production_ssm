@@ -47,27 +47,16 @@
 		<if test="status!=null">
 			and status=#{status}
 		</if>
-		ORDER BY c_order.order_date DESC
+		ORDER BY c_order.order_id DESC
 	</select>
 	
 	<select id="searchOrderByOrderIdDeep" parameterType="string" resultMap="BaseResultMap">
-		SELECT
-			order_id,
-			order_date,
-			request_date,
-			c_order.note,
-            c_order.total_money,
-			c_order.image,
-			file,
-			c_order.status,
-			custom.custom_id,
-			custom_name
+		SELECT *
 		FROM
-			c_order c , order_item o
-		LEFT JOIN custom ON c.custom_id = custom.custom_id
+			c_order
+		LEFT JOIN custom ON c_order.custom_id = custom.custom_id
 		WHERE 
-			c.order_id==#{orderId} and c.order_id == o.order_id
-		ORDER BY c.order_date DESC
+			c_order.order_id=#{orderId}
 	</select>
 	
 	<select id="searchOrderByOrderId" parameterType="string" resultMap="BaseResultMap">
@@ -107,7 +96,7 @@
 		LEFT JOIN custom ON c_order.custom_id = custom.custom_id
 		WHERE 
 			custom_name like CONCAT('%',#{customName},'%' ) 
-		ORDER BY c_order.order_date DESC
+		ORDER BY c_order.order_id DESC
 	</select>
 	
 	<select id="searchOrderByProductName" parameterType="string" resultMap="BaseResultMap">
@@ -127,7 +116,7 @@
 		LEFT JOIN custom ON c_order.custom_id = custom.custom_id
 		WHERE 
 			product_name like CONCAT('%',#{productName},'%' ) 
-		ORDER BY c_order.order_date DESC
+		ORDER BY c_order.order_id DESC
 	</select>
 	
 	<!-- 批量删除 -->

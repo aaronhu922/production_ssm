@@ -12,7 +12,7 @@
 			<th data-options="field:'customId',width:100,align:'center'">客户编号</th>
 			<th data-options="field:'customName',width:100,align:'center'">客户名称</th>
 			<th data-options="field:'balance',width:100,align:'center'">账户余额</th>
-			<th data-options="field:'dueBottle',width:100,align:'center'">欠瓶总数</th>
+			<th data-options="field:'dueBottle',width:100,align:'center',formatter:formatTotalDueBottle">欠瓶总数</th>
 			<th data-options="field:'fullName',width:200,align:'center'">客户全称</th>
 			<th data-options="field:'address',width:200,align:'center'">地址</th>
 			<th data-options="field:'fax',width:100,align:'center'">传真</th>
@@ -77,6 +77,27 @@
 	style="width:65%;height:80%;padding:10px;">
 </div>
 
+<div id="DueBottleInfo" class="easyui-dialog" title="客户欠瓶信息" data-options="modal:true,closed:true,resizable:true,
+		iconCls:'icon-save'" style="width:70%;height:80%;padding:10px;">
+		<table class="easyui-datagrid" id="dueBottleList" title="客户欠瓶信息" data-options="singleSelect:false,
+		collapsible:true,
+	     pagination:false,
+	     rownumbers:true,
+	     method:'get',	
+	     height:'auto',
+	     width:'auto',     
+	     fitColumns:true">
+    <thead>
+        <tr>
+			<th data-options="field:'customId',align:'center'">客户</th>
+			<th data-options="field:'productId',align:'center'">瓶子类别</th>
+			<th data-options="field:'quantity',align:'center'">数量</th>
+        </tr>
+    </thead>
+</table> 
+	
+</div>
+
 <div id="customNoteDialog" class="easyui-dialog" title="备注" 
 	data-options="modal:true,closed:true,resizable:true,iconCls:'icon-save'" 
 	style="width:55%;height:65%;padding:10px;">
@@ -109,7 +130,7 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 	             	{field : 'customId', width : 100, title : '客户编号', align:'center'},
 	             	{field : 'customName', width : 100, align : 'center', title : '客户名称'},
 	             	{field : 'balance', width : 100, align : 'center', title : '客户名称'},
-	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称', formatter:formatTotalDueBottle},
 	             	{field : 'fullName', width : 200, align : 'center', title : '客户全称'}, 
 	             	{field : 'address', width : 200, title : '地址', align:'center'}, 
 	             	{field : 'fax', width : 100, title : '传真', align:'center'}, 
@@ -132,7 +153,7 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 					{field : 'customId', width : 100, title : '客户编号', align:'center'},
 					{field : 'customName', width : 100, align : 'center', title : '客户名称'},
 	             	{field : 'balance', width : 100, align : 'center', title : '客户名称'},
-	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称', formatter:formatTotalDueBottle},
 					{field : 'fullName', width : 200, align : 'center', title : '客户全称'}, 
 					{field : 'address', width : 200, title : '地址', align:'center'}, 
 					{field : 'fax', width : 100, title : '传真', align:'center'}, 
@@ -153,8 +174,8 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 		var rows = $('#customList').datagrid('getRows');
 		return rows[index];
 		
-	}
-	
+	}	
+
 	//格式化客户介绍
 	function formatCustomNote(value, row, index){ 
 		if(value !=null && value != ''){
@@ -163,6 +184,17 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 			return "无";
 		}
 	}
+	
+	//格式化详细欠瓶数
+	function formatTotalDueBottle(value, row, index){ 
+		if(value !=null && value != ''){
+			var row = onCustomClickRow(index); 
+			return "<a href=javascript:openCustomDueBottle("+index+")>"+row.dueBottle+"</a>";
+		}else{
+			return "无";
+		}
+	} 
+	
 	
 	function  openCustomNote(index){ 
 		
@@ -280,4 +312,24 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
     function custom_reload(){
     	$("#customList").datagrid("reload");
     }
+    
+    function  openCustomDueBottle(index){ 
+		var row = onCustomClickRow(index);
+		$("#DueBottleInfo").dialog({
+    		onOpen :function(){
+    			$.get( 'dueBottle/get_duebottles_by_customer?searchValue='+row.customId,'',function(data){
+    				
+		    		//回显数据
+		    		$("#dueBottleList").datagrid("loadData", data);
+		    		
+	
+    	    	});
+    		},
+			onBeforeClose: function (event, ui) {
+				// 关闭Dialog前移除编辑器
+			   	//KindEditor.remove("#orderProductEditForm [name=note]");
+			   	//clearManuSpan();
+			}
+    	}).dialog("open");
+	};
 </script>

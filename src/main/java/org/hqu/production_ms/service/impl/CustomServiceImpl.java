@@ -140,4 +140,14 @@ public class CustomServiceImpl implements CustomService{
 		result.setTotal(pageInfo.getTotal());
 		return result;
 	}
+
+	@Override
+	public CustomResult updateBalanceAndBottleCount(Custom custom) throws Exception {
+		int i = customMapper.updateBalanceAndBottleCount(custom);
+		if(i>0){
+			return CustomResult.ok();
+		}else{
+			return CustomResult.build(101, "更新"+custom.getCustomName()+"的账户失败，余额： "+custom.getBalance());
+		}
+	}
 }

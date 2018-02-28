@@ -1,18 +1,26 @@
 package org.hqu.production_ms.controller;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.hqu.production_ms.domain.COrder;
+import org.hqu.production_ms.domain.Custom;
+import org.hqu.production_ms.domain.DueBottle;
 import org.hqu.production_ms.domain.OrderItem;
+import org.hqu.production_ms.domain.Product;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
 import org.hqu.production_ms.domain.vo.COrderVO;
+import org.hqu.production_ms.service.CustomService;
+import org.hqu.production_ms.service.DueBottleService;
 import org.hqu.production_ms.service.OrderItemService;
 import org.hqu.production_ms.service.OrderService;
+import org.hqu.production_ms.service.ProductService;
+import org.hqu.production_ms.util.IDUtils;
+import org.hqu.production_ms.util.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,13 +33,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@Autowired
 	private OrderService orderService;
 	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private CustomService customService;
 
 	@Autowired
 	private OrderItemService orderItemService;
+	
+	@Autowired
+	private DueBottleService dueBottleService;
 
 	@RequestMapping("/get/{orderId}")
 	@ResponseBody
@@ -78,6 +96,7 @@ public class OrderController {
 			System.out.println(fieldError.getDefaultMessage());
 			return CustomResult.build(100, fieldError.getDefaultMessage());
 		}
+		cOrder.setOrderId(IDUtils.genOrderId());
 		if (orderService.get(cOrder.getOrderId()) != null) {
 			result = new CustomResult(0, "该订单编号已经存在，请更换订单编号！", null);
 		} else {
@@ -86,39 +105,59 @@ public class OrderController {
 		if (result.getStatus() == 200) {
 			// continue to insert orderlist
 			
-			List<OrderItem> orderItems = getOrderItems(cOrder.getOrderList());
+			List<OrderItem> orderItems = JsonUtils.getOrderItems(cOrder.getOrderList());
 			for (OrderItem orderItem : orderItems) {
 				orderItem.setOrderId(cOrder.getOrderId());
 				result = orderItemService.insert(orderItem);
-				if(result.getStatus()!=200) break;
+				if (result.getStatus() != 200) {
+					logger.warn("产品列表存储错误，需要删除订单。");
+					result = new CustomResult(1, "产品列表存储错误，需要删除订单!", null);
+					return result;
+				}
+				
+				List<Product> prodoct = productService.searchProductByProductName(orderItem.getProductId());
+				if (prodoct.size() > 0 && prodoct.get(0).getProductType().equals("3")) {
+					DueBottle db = dueBottleService.searchDueBottleByCustomAndProduct(cOrder.getCustomId(),
+							orderItem.getProductId());
+					if (db == null) {
+						DueBottle bottleCount = new DueBottle();
+						bottleCount.setCustomId(cOrder.getCustomId());
+						bottleCount.setProductId(orderItem.getProductId());
+						bottleCount.setQuantity(orderItem.getQuantity());
+						dueBottleService.insert(bottleCount);
+					} else {
+						int curr = db.getQuantity();
+						db.setQuantity(orderItem.getQuantity() + curr);
+						dueBottleService.update(db);
+					}
+				}
 			}
+			
+			//获取客户总欠瓶数
+			int countofBottle = dueBottleService.getDueBottlesCountByCustomID(cOrder.getCustomId());
+			Custom custom = customService.get(cOrder.getCustomId());
+			custom.setDueBottle(countofBottle);
+			switch (cOrder.getStatus()) {
+			case 1:
+			case 3: {				
+				logger.warn("Customer " + custom.getCustomName() + " balance is " + custom.getBalance());
+				custom.setBalance(custom.getBalance().subtract(cOrder.getTotalMoney()));
+				customService.updateBalanceAndBottleCount(custom);
+				logger.warn("Customer " + custom.getCustomName() + " balance is " + custom.getBalance());
+				break;
+				}
+
+			default:
+				logger.warn("This order is paid by cash, total money is " + cOrder.getTotalMoney());
+				customService.updateBalanceAndBottleCount(custom);
+				break;
+			}
+			
 		}
 		
 		return result;
 	}
 
-	protected List<OrderItem> getOrderItems(String orderList) {
-		// TODO Auto-generated method stub
-		String[] items = orderList.split(",");
-		int length = items.length;
-		List<OrderItem> productsList = new ArrayList<>();
-		OrderItem item = null;
-		for (int i = 0; i < length; i++) {			
-			if (i % 4 == 0) {
-				item = new OrderItem();
-				item.setProductId(items[i]);				
-			} else if (i % 4 == 1) {
-				item.setUnit(items[i]);
-			} else if (i % 4 == 2) {
-				item.setQuantity(Integer.parseInt(items[i]));
-			} else {
-				item.setUnitPrice(new BigDecimal(items[i]));
-				productsList.add(item);
-			}
-		}
-
-		return productsList;
-	}
 
 	@RequestMapping(value = "/update")
 	@ResponseBody

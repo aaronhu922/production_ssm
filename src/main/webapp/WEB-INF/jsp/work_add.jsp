@@ -12,19 +12,19 @@
 	<form id="workAddForm" class="workForm" method="post">
 	    <table cellpadding="5" >
 	        <tr>
-	            <td>作业编号:</td>
+	            <td>配送编号:</td>
 	            <td>
 	            	<input class="easyui-textbox" type="text" name="workId" data-options="required:true"/>
 	            </td>
 	        </tr>
 	        <tr>
-	            <td>工序号:</td>
+	            <td>订单号:</td>
 	            <td>
 	            	<input class="easyui-textbox" type="text" name="processNumber" data-options="required:true"/>
     			</td>  
 	        </tr>
 	        <tr>
-	            <td>产品:</td>
+	            <td>订单信息:</td>
 	            <td>
 	            	<input class="easyui-combobox" name="productId" panelHeight="auto"
 						   data-options="valueField:'productId',textField:'productName',url:'product/get_data',
@@ -32,7 +32,7 @@
     			</td>  
 	        </tr>
 	        <tr>
-	            <td>工序:</td>
+	            <td>配送员:</td>
 	            <td>
 	            	<input class="easyui-combobox" name="processId" panelHeight="auto"
 						   data-options="valueField:'processId',textField:'processId',url:'process/get_data',
@@ -40,7 +40,7 @@
     			</td>  
 	        </tr>
 	        <tr>
-	            <td>设备:</td>
+	            <td>车辆信息:</td>
 	            <td>
 	            	<input class="easyui-combobox" name="deviceId" panelHeight="auto"
     					data-options="valueField:'deviceId',textField:'deviceName',url:'deviceList/get_data',
@@ -48,7 +48,7 @@
     			</td>  
 	        </tr>
 	        <tr>
-	            <td>班产定额:</td>
+	            <td>配送费:</td>
 	            <td>
 	            	<input class="easyui-numberbox" type="text" name="rating"/>
     			</td>  

@@ -15,6 +15,8 @@ public interface CustomMapper {
 	
 	int updateNote(Custom record);
 	
+	int updateBalanceAndBottleCount(Custom record);
+	
 	List<Custom> searchCustomByCustomName(String customName);
 	
 	List<Custom> searchCustomByCustomId(String customId);

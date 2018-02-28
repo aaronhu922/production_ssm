@@ -152,4 +152,10 @@ public class ProductServiceImpl implements ProductService{
 		result.setTotal(pageInfo.getTotal());
 		return result;
 	}
+
+	@Override
+	public List<Product> searchProductByProductName(String productName) throws Exception {
+		List<Product> list = productMapper.searchProductByProductName(productName);
+		return list;
+	}
 }

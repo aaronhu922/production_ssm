@@ -41,4 +41,6 @@ public interface OrderService {
 	//根据产品名称查找订单信息
 	EUDataGridResult searchOrderByProductName(int page, int rows,
 			String productName) throws Exception;
+
+	COrderVO searchOrderByOrderIdDeep(String id) throws Exception;
 }

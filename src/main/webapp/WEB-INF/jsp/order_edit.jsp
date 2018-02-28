@@ -25,10 +25,11 @@
 	            <td>
 		            <select class="easyui-combobox" name="status" panelHeight="auto" data-options="required:true,
 		            		width:150, editable:false">
-						<option value="1">未开始</option>
-						<option value="2">已开始</option>
-						<option value="3">已完成</option>
-						<option value="4">订单取消</option>
+						<option value="1">欠款经销商订单</option>
+						<option value="2">付现款经销商订单</option>
+						<option value="3">预付款经销商订单</option>
+						<option value="4">未开始</option>
+						<option value="5">订单取消</option>
 					</select>
 				</td>
 	        </tr>
@@ -41,13 +42,6 @@
 	            <td>要求日期:</td>
 	            <td><input class="easyui-datetimebox" name="requestDate"     
         			data-options="required:true,showSeconds:true" style="width:150px"> </td>
-	        </tr>
-	        <tr>
-	            <td>合同扫描件:</td>
-	            <td>
-	            	 <a href="javascript:void(0)" class="easyui-linkbutton picFileUpload">上传图片</a>
-	                 <input type="hidden" id="image" name="image"/>
-	            </td>
 	        </tr>
 	        <tr>
 	            <td>商品描述:</td>

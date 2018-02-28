@@ -62,5 +62,11 @@ public class OrderItemServiceImpl implements OrderItemService {
 		result.setTotal(list.size());
 		return result;
 	}
+	
+	@Override
+	public List<OrderItem> getOrderItemsByOrderId(String orderId) throws Exception {
+		List<OrderItem> list = orderItemMapper.selectByByOrderId(orderId);
+		return list;
+	}
 
 }

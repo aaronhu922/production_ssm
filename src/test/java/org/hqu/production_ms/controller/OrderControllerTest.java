@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.hqu.production_ms.domain.OrderItem;
+import org.hqu.production_ms.util.JsonUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class OrderControllerTest {
 	@Test
 	public void test() {
 		String s = "test,12,2,24";
-		List<OrderItem> items = oc.getOrderItems(s);
+		List<OrderItem> items = JsonUtils.getOrderItems(s);
 		assertEquals(1, items.size());	
 		assertEquals("test", items.get(0).getProductId());
 		assertEquals(new BigDecimal(24), items.get(0).getUnitPrice());

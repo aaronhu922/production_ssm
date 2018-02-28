@@ -55,6 +55,18 @@ public class OrderServiceImpl implements OrderService{
 		
 		return cOrderMapper.selectByPrimaryKey(id);
 	}
+	
+	@Override
+	public COrderVO searchOrderByOrderIdDeep(String id) throws Exception {
+
+		List<COrderVO> list = cOrderMapper.searchOrderByOrderIdDeep(id);
+		if (list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+
+	}
 
 	@Override
 	public CustomResult delete(String id) throws Exception{

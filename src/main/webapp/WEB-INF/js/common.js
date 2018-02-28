@@ -92,14 +92,16 @@ var TT = TAOTAO = {
 	// 格式化订单的状态
 	formatOrderStatus : function formatStatus(val,row){
         if (val == 1){
-            return '未开始';
-        }else if(val == 2){
-        	return '<span style="font-weight:bold;">已开始</span>';
+            return '欠款经销商订单';
+        } else if(val == 2){
+        	return '<span style="font-weight:bold;">付现款经销商订单</span>';
         } else if(val == 3){
-        	return '<span style="color:green;">已完成</span>';
+        	return '<span style="color:green;">预付款经销商订单</span>';
         } else if(val == 4){
+        	return '<span style="color:red;">未开始</span>';
+        } else if(val == 5){
         	return '<span style="color:red;">订单取消</span>';
-        }else {
+        } else {
         	return '<span style="color:#E5B717;">未知状态</span>';
         }
     },
@@ -111,6 +113,18 @@ var TT = TAOTAO = {
         	return '<span style="color:red;">无效客户</span>';
         }else {
         	return '<span style="color:#E5B717;">未知状态</span>';
+        }
+    },
+ // 格式化产品的种类
+    formatProductType : function formatStatus(val,row){
+        if (val == 1){
+            return '气体';
+        }else if(val == 2){
+        	return '<span style="color:red;">液体</span>';
+        }else if(val == 3){
+        	return '<span style="color:blue;">容器</span>';
+        }else {
+        	return '<span style="color:#E5B717;">其他</span>';
         }
     },
     // 格式化产品的状态

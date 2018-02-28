@@ -2,17 +2,16 @@
 @import url("reset.css");
 /*主体部分*/
 .main{
-	background:url("../../image/login/header_bg.png") top repeat-x;
-	min-width:1000px;
+	background:url("../../image/login/header_bg.png") no-repeat top center;
 	overflow:hidden;
-	width:100%;
+	width:auto;
 	height:auto
 }
 .header{
 	background:url("../../image/login/logo_ico.png") no-repeat top left;
 	margin:123px auto 0;
 	width:330px;
-	height:41px
+	height:50px
 }
 /*中部内容部分*/
 .content{

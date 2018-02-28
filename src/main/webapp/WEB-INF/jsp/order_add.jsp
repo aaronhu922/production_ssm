@@ -27,12 +27,7 @@
 	 
 		<table>
 			<tr>
-				<td>订单编号:</td>
-				<td><input class="easyui-textbox" type="text" name="orderId"
-					data-options="required:true"></input></td>
-			</tr>
-			<tr>
-				<td>订购客户:</td>
+				<td width="100">订购客户:</td>
 				<td><input id="custom" class="easyui-combobox" name="customId"
 					panelHeight="auto"
 					data-options="required:true,valueField:'customId',textField:'customName',url:'custom/get_data',
@@ -40,32 +35,32 @@
 				</td>
 			</tr>
 			<tr>
-				<td>订单总额(￥):</td>
+				<td width="100">订单总额(￥):</td>
 				<td><input class="easyui-numberbox" type="text" id="totalMoney"
 					name="totalMoney" data-options="min:0,max:99999999,precision:2,required:true" />
 				</td>
 			</tr>
 			<tr>
-				<td>订单状态:</td>
+				<td width="100">订单状态:</td>
 				<td><select id="cc" class="easyui-combobox" name="status"
 					panelHeight="auto"
 					data-options="required:true, width:150, editable:false">
 						<option value="1">欠款经销商订单</option>
 						<option value="2">付现款经销商订单</option>
 						<option value="3">预付款经销商订单</option>
-						<option value="4">直销户</option>
+						<option value="4">未开始</option>
 						<option value="5">订单取消</option>
 				</select></td>
 			</tr>
 			<tr>
-				<td>订购日期:</td>
+				<td width="100">订购日期:</td>
 				<td><input class="easyui-datetimebox" name="orderDate"
 					data-options="required:true,showSeconds:true"
 					value="date.format('yyyy-MM-dd hh:mm:ss')" style="width: 150px">
 				</td>
 			</tr>
 			<tr>
-				<td>要求日期:</td>
+				<td width="100">要求日期:</td>
 				<td><input class="easyui-datetimebox" name="requestDate"
 					data-options="required:true,showSeconds:true"
 					value="date.format('yyyy-MM-dd hh:mm:ss')" style="width: 150px">
@@ -86,9 +81,9 @@
 				</td>
 			</tr>-->
 			<tr>
-				<td>订单要求:</td>
+				<td width="100">订单要求:</td>
 				<td><textarea
-						style="width: 800px; height: 300px; visibility: true;"
+						style="width: 560px; height: 300px; visibility: true;"
 						name="note"></textarea></td>
 			</tr>
 		</table>
@@ -138,12 +133,12 @@ $(function(){
 			{field:'action',title:'操作',width:80,align:'center',
 				formatter:function(value,row,index){
 					if (row.editing){
-						var s = '<a href="javascript:void(0)" onclick="saverow(this)">Save</a> ';
-						var c = '<a href="javascript:void(0)" onclick="cancelrow(this)">Cancel</a>';
+						var s = '<a href="javascript:void(0)" onclick="saverow(this)">保存</a> ';
+						var c = '<a href="javascript:void(0)" onclick="cancelrow(this)">取消</a>';
 						return s+c;
 					} else {
-						var e = '<a href="javascript:void(0)" onclick="editrow(this)">Edit</a> ';
-						var d = '<a href="javascript:void(0)" onclick="deleterow(this)">Delete</a>';
+						var e = '<a href="javascript:void(0)" onclick="editrow(this)">修改</a> ';
+						var d = '<a href="javascript:void(0)" onclick="deleterow(this)">删除</a>';
 						return e+d;
 					}
 				}

@@ -81,11 +81,10 @@
 					</ul>
 					<ul>
 						<li id=15 data-options="attributes:{'url':'manufacture/find'}">生产计划管理</li>
-					</ul>
-					-->
+					</ul>					
 					<ul>
 						<li id=16 data-options="attributes:{'url':'task/find'}">派送管理</li>
-					</ul>
+					</ul>-->
 				</li>
 			</ul>
 		</div>
@@ -116,10 +115,10 @@
 			</ul>
 		</div>
 		
-		<!--div title="物料管理" data-options="selected:true" style="padding:10px">
+		<!-- div title="物料监控" data-options="selected:true" style="padding:10px">
 		
 			<ul id="materialMonitor" class="easyui-tree" data-options="animate:true,lines:true">
-				<li><span>物料管理 </span>
+				<li><span>物料监控 </span>
 					<ul>
 						<li id=41 data-options="attributes:{'url':'material/find'}">物料信息</li>
 						<li id=42 data-options="attributes:{'url':'materialReceive/find'}">物料采购</li>
@@ -145,10 +144,10 @@
 
 		</div!-->
 		
-		<div title="人员管理" data-options="selected:true" style="padding:10px">
+		<div title="人员监控" data-options="selected:true" style="padding:10px">
 			<ul id="employeeMonitor" class="easyui-tree"
 				data-options="animate:true,lines:true">
-				<li><span>人员管理</span>
+				<li><span>人员监控</span>
 					<ul>
 						<li id=61 data-options="attributes:{'url':'department/find'}">部门管理</li>
 					</ul>
