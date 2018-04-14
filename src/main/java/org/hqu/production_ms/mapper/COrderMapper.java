@@ -3,15 +3,24 @@ package org.hqu.production_ms.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.hqu.production_ms.domain.vo.COrderVO;
-import org.hqu.production_ms.domain.COrderExample;
 import org.hqu.production_ms.domain.COrder;
+import org.hqu.production_ms.domain.COrderExample;
+import org.hqu.production_ms.domain.vo.COrderVO;
+import org.hqu.production_ms.domain.vo.OrderMetricsVO;
 
 public interface COrderMapper {
 	
 	//扩展的mapper接口方法
 	List<COrderVO> find(COrder cOrder);
 	
+	List<OrderMetricsVO> getMonthMetrics(int year);
+	
+	List<OrderMetricsVO> getMonthMetricsForCustomer(COrderExample example);
+	
+	List<OrderMetricsVO> getYearMetrics(String customid);
+	
+	List<OrderMetricsVO> getCustomYearMetrics(String custom);
+
 
 	//根据订单id查找订单信息
 	List<COrderVO> searchOrderByOrderId(String orderId);
@@ -50,6 +59,7 @@ public interface COrderMapper {
     int updateByPrimaryKeySelective(COrder record);
 
     int updateByPrimaryKey(COrder cOrder);
+
     
     
 }

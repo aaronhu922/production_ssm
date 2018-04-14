@@ -6,6 +6,7 @@ import org.hqu.production_ms.domain.Custom;
 import org.hqu.production_ms.domain.CustomExample;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
+import org.hqu.production_ms.domain.vo.CustomMetricsVO;
 import org.hqu.production_ms.mapper.CustomMapper;
 import org.hqu.production_ms.service.CustomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,4 +151,19 @@ public class CustomServiceImpl implements CustomService{
 			return CustomResult.build(101, "更新"+custom.getCustomName()+"的账户失败，余额： "+custom.getBalance());
 		}
 	}
+
+	@Override
+	public EUDataGridResult getDueBottlesForCustomer(int page, int rows, String customid) throws Exception{
+		List<CustomMetricsVO> monthMetrics = customMapper.getDueBottlesForCustomer(customid);
+		//分页处理
+		PageHelper.startPage(page, rows);
+		//创建一个返回值对象
+		EUDataGridResult result = new EUDataGridResult();
+		result.setRows(monthMetrics);
+		//取记录总条数
+		PageInfo<CustomMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
+		result.setTotal(pageInfo.getTotal());
+		return result;
+	}	
+
 }

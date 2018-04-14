@@ -12,6 +12,18 @@
 	            	<input class="easyui-textbox" type="text" name="customName" data-options="required:true"/>
 	            </td>
 	        </tr>
+	        <tr>
+	            <td>客户类型:</td>
+	            <td>
+		            <select class="easyui-combobox" name="customType" panelHeight="auto" 
+		            	data-options="width:150, editable:false">
+						<option value="1">直销客户</option>
+						<option value="2">分销客户</option>
+						<option value="3">零售客户</option>
+						<option value="4">其他</option>						
+					</select>
+				</td>
+	        </tr>
 			<tr>
 				<td>账户余额:</td>
 				<td><input class="easyui-numberbox" type="text" name="balance"

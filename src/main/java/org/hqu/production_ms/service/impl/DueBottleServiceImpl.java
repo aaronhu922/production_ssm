@@ -105,9 +105,19 @@ public class DueBottleServiceImpl implements DueBottleService {
 		result.setTotal(list.size());
 		return result;
 	}
+	
+	@Override
+	public List<DueBottle> getDueBottlesListByCustomID(String customID) throws Exception {
+
+		DueBottleExample dbex = new DueBottleExample();
+		dbex.createCriteria().andCustomIdEqualTo(customID);
+		List<DueBottle> list = duebottleMapper.selectByExample(dbex);
+
+		return list;
+	}
 
 	@Override
-	public int getDueBottlesCountByCustomID(String customID) {
+	public int getDueBottlesCountByCustomID(String customID) throws Exception {
 		// TODO Auto-generated method stub
 
 		int count = duebottleMapper.getSumofQuanlityByCustomID(customID);

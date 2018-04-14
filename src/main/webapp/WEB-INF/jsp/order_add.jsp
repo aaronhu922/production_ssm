@@ -45,11 +45,20 @@
 				<td><select id="cc" class="easyui-combobox" name="status"
 					panelHeight="auto"
 					data-options="required:true, width:150, editable:false">
-						<option value="1">欠款经销商订单</option>
-						<option value="2">付现款经销商订单</option>
-						<option value="3">预付款经销商订单</option>
-						<option value="4">未开始</option>
-						<option value="5">订单取消</option>
+						<option value="1">有效</option>
+						<option value="2">取消</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td width="100">支付状态:</td>
+				<td><select id="cc" class="easyui-combobox" name="paymentType"
+					panelHeight="auto"
+					data-options="required:true, width:150, editable:false">
+						<option value="0">现金</option>
+						<option value="1">微信/支付宝</option>
+						<option value="2">应收款</option>
+						<option value="3">公对公</option>
+						<option value="4">其他</option>
 				</select></td>
 			</tr>
 			<tr>
@@ -60,9 +69,18 @@
 				</td>
 			</tr>
 			<tr>
+				<td width="100">是否配送:</td>
+				<td>
+				  <a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="enabledelivery()">是</a>
+                  <a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="disabledelivery()">否</a>
+		          <input type="hidden" id="deliverysb" name="delivery" value="true" />
+				</td>
+			</tr>
+			
+			<tr>
 				<td width="100">要求日期:</td>
-				<td><input class="easyui-datetimebox" name="requestDate"
-					data-options="required:true,showSeconds:true"
+				<td><input id="requestDatePanel" class="easyui-datetimebox" name="requestDate"
+					data-options="required:false,showSeconds:true"
 					value="date.format('yyyy-MM-dd hh:mm:ss')" style="width: 150px">
 				</td>
 			</tr>
@@ -217,6 +235,16 @@ function insert(){
 	});
 	$('#tt').datagrid('selectRow',index);
 	$('#tt').datagrid('beginEdit',index);
+}
+
+function enabledelivery(){
+	$('#requestDatePanel').datetimebox('enable');	
+	$('#deliverysb').val("true");
+}
+
+function disabledelivery(){
+	$('#requestDatePanel').datetimebox('disable');
+	$('#deliverysb').val("false");
 }
 
 	function compute() {//计算函数

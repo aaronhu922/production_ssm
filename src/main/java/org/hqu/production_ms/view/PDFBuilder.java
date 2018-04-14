@@ -1,12 +1,14 @@
 package org.hqu.production_ms.view;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hqu.production_ms.domain.DueBottle;
 import org.hqu.production_ms.domain.OrderItem;
 import org.hqu.production_ms.domain.vo.COrderVO;
 
@@ -30,44 +32,66 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class PDFBuilder extends AbstractITextPdfView {
 	
 	final SimpleDateFormat sdf = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+			"yyyy-MM-dd");
+	
+	static HashMap<Integer, String> customType = new HashMap<Integer, String>();
+	static HashMap<Integer, String> orderStatus = new HashMap<Integer, String>();
+	
+	static {
+		
+		customType.put(1, "直销客户");
+		customType.put(2, "分销客户");
+		customType.put(3, "零售客户");
+		customType.put(4, "其他");
+		
+		orderStatus.put(1, "入厂管理");
+		orderStatus.put(2, "订单核对完成");
+		orderStatus.put(3, "出厂(订单完结)");
+		orderStatus.put(4, "订单取消");		
+	}
+
+
+	
 
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document doc, PdfWriter writer,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// get data model which is passed by the Spring container
 		List<OrderItem> listItems = (List<OrderItem>) model.get("listOrderItems");
+		List<DueBottle> listBottles = (List<DueBottle>)model.get("listBottles");
 		// define font for table header row
 		COrderVO order = (COrderVO) model.get("order");
 		
+		
 		BaseFont baseFont = BaseFont.createFont("STSong-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);   
 //		Font font = FontFactory.getFont(FontFactory.HELVETICA);
-		Font font = new Font(baseFont, 16, Font.NORMAL);  
+		Font font = new Font(baseFont, 11, Font.NORMAL);  
+		Font font1 = new Font(baseFont, 14, Font.NORMAL);  
+
 
 //		font.setColor(BaseColor.WHITE);
-		doc.add(new Paragraph("订单信息", font));
-		PdfPTable ordertable = new PdfPTable(2);
+		doc.add(new Paragraph("                                       淄博锦庄气体有限公司销售单", font1));
+		PdfPTable ordertable = new PdfPTable(4);
 		ordertable.setWidthPercentage(100.0f);
-		ordertable.setWidths(new float[] { 1.0f, 2.0f});
+		ordertable.setWidths(new float[] { 1.0f, 2.0f, 1.0f, 2.0f});
 		ordertable.setSpacingBefore(10);
 		
 		ordertable.addCell(new Phrase("订单号：", font));
 		ordertable.addCell(order.getOrderId());
 		
+		ordertable.addCell(new Phrase("订单日期：", font));
+		ordertable.addCell(sdf.format(order.getOrderDate()));	
+		
 		ordertable.addCell(new Phrase("客户名称：", font));
 		ordertable.addCell(new Phrase(order.getCustom().getCustomName(), font));
 		
-		ordertable.addCell(new Phrase("客户地址：", font));
-		ordertable.addCell(new Phrase(order.getCustom().getAddress(), font));
-		
-		ordertable.addCell(new Phrase("客户电话：", font));
-		ordertable.addCell(order.getCustom().getOwnerTel());
+//		ordertable.addCell(new Phrase("客户地址：", font));
+//		ordertable.addCell(new Phrase(order.getCustom().getAddress(), font));
+//		
+//		ordertable.addCell(new Phrase("客户电话：", font));
+//		ordertable.addCell(order.getCustom().getOwnerTel());
 
-		ordertable.addCell(new Phrase("订单日期：", font));
-		ordertable.addCell(sdf.format(order.getOrderDate()));
-		
-		ordertable.addCell(new Phrase("配送日期：", font));
-		ordertable.addCell(sdf.format(order.getRequestDate()));
+
 		
 		ordertable.addCell(new Phrase("订单总额：", font));
 		ordertable.addCell(String.valueOf(order.getTotalMoney()));
@@ -114,19 +138,41 @@ public class PDFBuilder extends AbstractITextPdfView {
 
 		doc.add(table);
 		
-		doc.add(new Paragraph("客户账户信息：", font));
-		PdfPTable balancetable = new PdfPTable(2);
-		balancetable.setWidthPercentage(100.0f);
-		balancetable.setWidths(new float[] { 1.0f, 2.0f});
-		balancetable.setSpacingBefore(10);
-		
-		balancetable.addCell(new Phrase("客户账户余额：", font));
-		balancetable.addCell(String.valueOf(order.getCustom().getBalance()));
-		
-		balancetable.addCell(new Phrase("客户欠瓶总数：", font));
-		balancetable.addCell(String.valueOf(order.getCustom().getDueBottle()));
-		doc.add(balancetable);
-		
+		//Add bottles table
+		doc.add(new Paragraph("气瓶统计管理：", font));
+
+		PdfPTable bottleTable = new PdfPTable(3);
+		bottleTable.setWidthPercentage(100.0f);
+		bottleTable.setWidths(new float[] { 1.0f, 1.0f, 1.0f });
+		bottleTable.setSpacingBefore(10);
+
+		// define table header cell
+		PdfPCell hcell = new PdfPCell();
+		hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+		hcell.setPadding(5);
+
+		// write table header
+		hcell.setPhrase(new Phrase("序号", font));
+		bottleTable.addCell(hcell);
+
+		hcell.setPhrase(new Phrase("容器类别", font));
+		bottleTable.addCell(hcell);
+
+		hcell.setPhrase(new Phrase("数量", font));
+		bottleTable.addCell(hcell);
+
+
+
+		// write table row data
+		int index = 1;
+		for (DueBottle item : listBottles) {
+			bottleTable.addCell(String.valueOf(index++));			
+			bottleTable.addCell(new Phrase(item.getProductId(), font));
+			bottleTable.addCell(String.valueOf(item.getQuantity()));			
+		}
+
+		doc.add(bottleTable);		
+			
 		doc.add(new Paragraph("备注：", font));
 
 		doc.add(new Paragraph(order.getNote(), font));

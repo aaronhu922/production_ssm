@@ -29,7 +29,7 @@
     </encoder>                                                                                                                                                                                                                                
   </appender>   
 
-  <root level="WARN">
+  <root level="DEBUG">
     <appender-ref ref="stdout"/>
     <appender-ref ref="FILE"/>
   </root>

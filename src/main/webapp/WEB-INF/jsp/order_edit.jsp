@@ -10,6 +10,7 @@
 <div style="padding:10px 10px 10px 10px">
 	<form id="orderEditForm" class="orderForm" method="post">
 		<input type="hidden" name="orderId"/>
+		<input type="hidden" name="totalMoney"/>		
 	    <table cellpadding="5">
 	         <tr>
 	            <td>订购客户:</td>
@@ -21,27 +22,48 @@
 	        </tr>
 	       
 	        <tr>
-	            <td>订单状态:</td>
-	            <td>
-		            <select class="easyui-combobox" name="status" panelHeight="auto" data-options="required:true,
-		            		width:150, editable:false">
-						<option value="1">欠款经销商订单</option>
-						<option value="2">付现款经销商订单</option>
-						<option value="3">预付款经销商订单</option>
-						<option value="4">未开始</option>
-						<option value="5">订单取消</option>
-					</select>
-				</td>
-	        </tr>
+				<td width="100">订单状态:</td>
+				<td><select id="cc" class="easyui-combobox" name="status"
+					panelHeight="auto"
+					data-options="required:true, width:150, editable:false">
+						<option value="1">入厂管理</option>
+						<option value="2">订单核对完成</option>
+						<option value="3">出厂(订单完结)</option>
+						<option value="4">订单取消</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td width="100">支付状态:</td>
+				<td><select id="cc" class="easyui-combobox" name="paymentType"
+					panelHeight="auto"
+					data-options="required:true, width:150, editable:false">
+						<option value="0">未付款</option>
+						<option value="1">已付现款</option>
+						<option value="2">预付款</option>
+						<option value="3">欠款</option>
+				</select></td>
+			</tr>
 	        <tr>
 	            <td>订购日期:</td>
 	            <td><input class="easyui-datetimebox" name="orderDate"     
         			data-options="required:true,showSeconds:true" style="width:150px"> </td>
 	        </tr>
+	        
+	        <tr>
+				<td width="100">是否配送:</td>
+				<td>
+				  <a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="enabledelivery()">是</a>
+                  <a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g1'" onclick="disabledelivery()">否</a>
+		          <input type="hidden" id="deliverysb" name="delivery"/>
+				</td>
+			</tr>
+	        
 	        <tr>
 	            <td>要求日期:</td>
-	            <td><input class="easyui-datetimebox" name="requestDate"     
-        			data-options="required:true,showSeconds:true" style="width:150px"> </td>
+      			
+        		<td><input id="requestDatePanel" class="easyui-datetimebox" name="requestDate"
+					data-options="required:false,showSeconds:true" style="width: 150px">
+				</td>
 	        </tr>
 	        <tr>
 	            <td>商品描述:</td>
@@ -82,5 +104,15 @@
 				$.messager.alert('提示',data.msg);
 			}
 		});
+	}
+	
+	function enabledelivery(){
+		$('#requestDatePanel').datetimebox('enable');	
+		$('#deliverysb').val("true");
+	}
+
+	function disabledelivery(){
+		$('#requestDatePanel').datetimebox('disable');
+		$('#deliverysb').val("false");
 	}
 </script>

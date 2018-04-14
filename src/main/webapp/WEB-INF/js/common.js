@@ -48,8 +48,11 @@ var TT = TAOTAO = {
 	},
 	// 格式化时间
 	formatDateTime : function(val,row){
+		if(val != null){
 		var now = new Date(val);
     	return now.format("yyyy-MM-dd hh:mm:ss");
+		}
+		return "";
 	},
 	// 格式化性别
 	formatSex : function(val,row){
@@ -92,17 +95,25 @@ var TT = TAOTAO = {
 	// 格式化订单的状态
 	formatOrderStatus : function formatStatus(val,row){
         if (val == 1){
-            return '欠款经销商订单';
+            return '有效';
         } else if(val == 2){
-        	return '<span style="font-weight:bold;">付现款经销商订单</span>';
-        } else if(val == 3){
-        	return '<span style="color:green;">预付款经销商订单</span>';
-        } else if(val == 4){
-        	return '<span style="color:red;">未开始</span>';
-        } else if(val == 5){
-        	return '<span style="color:red;">订单取消</span>';
+        	return '<span style="color:green;">取消</span>';
         } else {
-        	return '<span style="color:#E5B717;">未知状态</span>';
+        	return '<span style="color:#E5B717;">订单取消</span>';
+        }
+    },
+	// 格式化支付的状态
+	formatPaymentStatus : function formatStatus(val,row){
+        if (val == 0){
+            return '现金';
+        } else if(val == 1){
+        	return '<span style="font-weight:bold;">微信/支付宝</span>';
+        } else if(val == 2){
+        	return '<span style="color:green;">应收款</span>';
+        } else if(val == 3){
+        	return '<span style="color:red;">公对公</span>';
+        } else {
+        	return '<span style="color:#E5B717;">其他</span>';
         }
     },
     // 格式化客户的状态
@@ -113,6 +124,18 @@ var TT = TAOTAO = {
         	return '<span style="color:red;">无效客户</span>';
         }else {
         	return '<span style="color:#E5B717;">未知状态</span>';
+        }
+    },
+    // 格式化客户的类型
+    formatCustomType : function formatStatus(val,row){
+        if (val == 1){
+            return '直销客户';
+        }else if(val == 2){
+        	return '分销客户';
+        }else if(val == 3){
+        	return '零售客户';
+        }else {
+        	return '其他';
         }
     },
  // 格式化产品的种类

@@ -14,7 +14,8 @@
 			<th data-options="field:'orderId',align:'center',width:100">订单编号</th>
 			<th data-options="field:'custom',align:'center',width:100,formatter:formatCustom">订购客户</th>
 			<th data-options="field:'totalMoney',width:70,align:'center',formatter:formatTotalMoney">总价</th>
-			<th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatOrderStatus">状态</th>
+			<th data-options="field:'status',width:60,align:'center',formatter:TAOTAO.formatOrderStatus">订单状态</th>
+			<th data-options="field:'paymentType',width:60,align:'center',formatter:TAOTAO.formatPaymentStatus">支付状态</th>
 			<th data-options="field:'orderDate',width:130,align:'center',formatter:TAOTAO.formatDateTime">订购日期</th>
 			<th data-options="field:'requestDate',width:130,align:'center',formatter:TAOTAO.formatDateTime">要求日期</th>
 			<th data-options="field:'note',width:100,align:'center', formatter:formatOrderNote">订单要求</th>
@@ -60,7 +61,6 @@
         <div id="menu_order" style="width:120px"> 
 			<div data-options="name:'orderId'">订单编号</div> 
 			<div data-options="name:'orderCustom'">客户名称</div>
-			<div data-options="name:'orderProduct'">产品名称</div> 
 		</div>     
     </div>  
 </div>  
@@ -80,6 +80,18 @@
 	        <tr>
 	            <td>客户名称:</td>
 	            <td><input class="easyui-textbox" type="text" name="customName" data-options="required:true"/></td>
+	        </tr>
+	        <tr>
+	            <td>客户类型:</td>
+	            <td>
+		            <select class="easyui-combobox" name="customType" panelHeight="auto" 
+		            	data-options="width:150, editable:false">
+						<option value="1">直销客户</option>
+						<option value="2">分销客户</option>
+						<option value="3">零售客户</option>
+						<option value="4">其他</option>						
+					</select>
+				</td>
 	        </tr>	        			
 	        <tr>
 				<td>账户余额:</td>
@@ -183,7 +195,8 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 				{field : 'orderId', width : 100, align:'center', title : '订单编号'},
 				{field : 'custom', width : 100, align : 'center', title : '订购客户', formatter:formatCustom},
 				{field : 'totalMoney', width : 70, title : '总价', align:'center', formatter:formatTotalMoney},
-				{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus},
+				{field : 'status', width : 60, title : '订单状态', align:'center', formatter:TAOTAO.formatOrderStatus},
+				{field : 'paymentType', width : 60, title : '支付状态', align:'center', formatter:TAOTAO.formatPaymentStatus},
 				{field : 'orderDate', width : 130, title : '订购日期', align:'center', formatter:TAOTAO.formatDateTime},
 				{field : 'requestDate', width : 130, title : '要求日期', align:'center',
 					formatter:TAOTAO.formatDateTime},
@@ -203,7 +216,8 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 	             	{field : 'orderId', width : 100, title : '订单编号', align:'center'},
 	             	{field : 'custom', width : 100, align : 'center', title : '订购客户', formatter:formatCustom},
 					{field : 'totalMoney', width : 70, title : '总价', align:'center', formatter:formatTotalMoney},
-	             	{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus}, 
+	             	{field : 'status', width : 60, title : '状态', align:'center', formatter:TAOTAO.formatOrderStatus},
+	             	{field : 'paymentType', width : 60, title : '支付状态', align:'center', formatter:TAOTAO.formatPaymentStatus},
 	             	{field : 'orderDate', width : 130, title : '订购日期', align:'center',
 						formatter:TAOTAO.formatDateTime},
 	             	{field : 'requestDate', width : 130, title : '要求日期', align:'center',
@@ -236,7 +250,7 @@ function doSearch_order(value,name){ //用户输入用户名,点击搜素,触发
 			var row = onOrderClickRow(index); 
 			return "<a href=javascript:openOrderProduct("+index+")>"+row.totalMoney+"</a>";
 		}else{
-			return "无";
+			return "<a href=javascript:openOrderProduct("+index+")>0</a>";
 		}
 	};  
 	

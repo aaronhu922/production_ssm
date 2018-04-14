@@ -41,6 +41,17 @@ public class CustomController {
 		return "custom_add";
 	}
 	
+	@RequestMapping("/metric")
+	public String metric() {
+		return "custom_metrics";
+	}
+	
+	@RequestMapping("/ordermetric")
+	public String orderMetric() {
+		return "custom_order_metric";
+	}
+	
+	
 	@RequestMapping("/edit")
 	public String edit() throws Exception{
 		return "custom_edit";
@@ -142,6 +153,14 @@ public class CustomController {
 	public EUDataGridResult searchCustomByCustomName(Integer page, Integer rows, String searchValue) 
 			throws Exception{
 		EUDataGridResult result = customService.searchCustomByCustomName(page, rows, searchValue);
+		return result;
+	}
+	
+	@RequestMapping("/duebottles")
+	@ResponseBody
+	public EUDataGridResult getDueBottlesForCustomer(Integer page, Integer rows, String customid) 
+			throws Exception{
+		EUDataGridResult result = customService.getDueBottlesForCustomer(page, rows, customid);
 		return result;
 	}
 	

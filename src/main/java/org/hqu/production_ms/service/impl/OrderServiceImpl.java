@@ -3,7 +3,9 @@ package org.hqu.production_ms.service.impl;
 import java.util.List;
 
 import org.hqu.production_ms.domain.vo.COrderVO;
+import org.hqu.production_ms.domain.vo.OrderMetricsVO;
 import org.hqu.production_ms.domain.COrderExample;
+import org.hqu.production_ms.domain.COrderExample.Criteria;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
 import org.hqu.production_ms.domain.COrder;
@@ -178,6 +180,73 @@ public class OrderServiceImpl implements OrderService{
 		result.setRows(list);
 		//取记录总条数
 		PageInfo<COrderVO> pageInfo = new PageInfo<>(list);
+		result.setTotal(pageInfo.getTotal());
+		return result;
+	}
+
+	@Override
+	public EUDataGridResult getMonthMetrics(int page, int rows, int year) {
+		
+		//分页处理
+		PageHelper.startPage(page, rows);
+		List<OrderMetricsVO> monthMetrics = cOrderMapper.getMonthMetrics(year);
+		//创建一个返回值对象
+		EUDataGridResult result = new EUDataGridResult();
+		result.setRows(monthMetrics);
+		//取记录总条数
+		PageInfo<OrderMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
+		result.setTotal(pageInfo.getTotal());
+		return result;
+		
+	}
+
+	@Override
+	public EUDataGridResult getMonthMetricsForCustomer(int page, int rows, int year, String customId) {
+		
+		//分页处理
+		PageHelper.startPage(page, rows);
+		COrderExample example = new COrderExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCustomIdEqualTo(customId);
+//		criteria.andOrderDateBetween(value1, value2)
+		
+		String conditon = "year(order_date)="+year;
+		
+		example.addStringCondition(criteria, conditon);
+		List<OrderMetricsVO> monthMetrics = cOrderMapper.getMonthMetricsForCustomer(example);
+		//创建一个返回值对象
+		EUDataGridResult result = new EUDataGridResult();
+		result.setRows(monthMetrics);
+		//取记录总条数
+		PageInfo<OrderMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
+		result.setTotal(pageInfo.getTotal());
+		return result;
+	}
+
+	@Override
+	public EUDataGridResult getYearMetrics(int page, int rows, String customid) {
+		List<OrderMetricsVO> monthMetrics = cOrderMapper.getYearMetrics(customid);
+		//分页处理
+		PageHelper.startPage(page, rows);
+		//创建一个返回值对象
+		EUDataGridResult result = new EUDataGridResult();
+		result.setRows(monthMetrics);
+		//取记录总条数
+		PageInfo<OrderMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
+		result.setTotal(pageInfo.getTotal());
+		return result;
+	}
+
+	@Override
+	public EUDataGridResult getYearMetricsForCustomer(int page,int rows,String custom) throws Exception {
+		List<OrderMetricsVO> monthMetrics = cOrderMapper.getCustomYearMetrics(custom);
+		//分页处理
+		PageHelper.startPage(page, rows);
+		//创建一个返回值对象
+		EUDataGridResult result = new EUDataGridResult();
+		result.setRows(monthMetrics);
+		//取记录总条数
+		PageInfo<OrderMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
 		result.setTotal(pageInfo.getTotal());
 		return result;
 	}

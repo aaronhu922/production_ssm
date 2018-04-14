@@ -3,8 +3,10 @@ package org.hqu.production_ms.mapper;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.hqu.production_ms.domain.Custom;
+import org.hqu.production_ms.domain.vo.CustomMetricsVO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +55,15 @@ public class CustomMapperTest {
 		Custom custom2 = customMapper.selectByPrimaryKey("111112222233333");
 		System.out.println( custom2.getBalance().toString());
 		assertEquals(5050.5, custom2.getBalance().doubleValue(),0.0);
+//		
+//		List<CustomMetricsVO> list = customMapper.getDueBottlesForCustomer("");
+//		assertEquals(19, list.size());
+//		for (CustomMetricsVO customMetricsVO : list) {
+//			System.out.print(customMetricsVO.getCustomName());
+//			System.out.print(customMetricsVO.getProductId());
+//			System.out.println(customMetricsVO.getQuantity());
+//		}
+
 	}
 
 }

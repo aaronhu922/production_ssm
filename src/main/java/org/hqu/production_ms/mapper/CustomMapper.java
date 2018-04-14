@@ -5,8 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.hqu.production_ms.domain.Custom;
 import org.hqu.production_ms.domain.CustomExample;
+import org.hqu.production_ms.domain.vo.CustomMetricsVO;
 
-public interface CustomMapper {
+public interface CustomMapper {	
+	
+	List<CustomMetricsVO> getDueBottlesForCustomer(String customid);
 	
 	//扩展的mapper接口方法
 	int deleteBatch(String[] ids);

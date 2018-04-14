@@ -37,4 +37,7 @@ public interface CustomService {
     EUDataGridResult searchCustomByCustomName(int page, int rows, String customName) throws Exception;
 
     EUDataGridResult searchCustomByCustomId(int page, int rows, String customId) throws Exception;
+    
+    EUDataGridResult getDueBottlesForCustomer(int page, int rows, String customid)  throws Exception;
+
 }

@@ -106,9 +106,9 @@
 			<ul id="technologyMonitor" class="easyui-tree" data-options="animate:true,lines:true">
 				<li><span>财务管理</span>
 					<ul>
-						<li id=31 data-options="attributes:{'url':''}">财务报表</li>
-						<li id=32 data-options="attributes:{'url':''}">欠账提醒</li>
-						<li id=33 data-options="attributes:{'url':''}">财务计划</li>
+						<li id=31 data-options="attributes:{'url':'order/metric'}">财务总报表</li>
+						<li id=32 data-options="attributes:{'url':'custom/metric'}">客户欠瓶统计</li>
+						<li id=33 data-options="attributes:{'url':'custom/ordermetric'}">客户财务统计</li>
 						<!--li id=34 data-options="attributes:{'url':'process/find'}">绩效管理</li-->
 					</ul>
 				</li>

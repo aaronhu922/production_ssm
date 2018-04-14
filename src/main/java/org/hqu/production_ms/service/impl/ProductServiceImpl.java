@@ -154,8 +154,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> searchProductByProductName(String productName) throws Exception {
-		List<Product> list = productMapper.searchProductByProductName(productName);
-		return list;
+	public Product getProductByProductName(String productName) throws Exception {
+		Product product = productMapper.getProductByProductName(productName);
+		return product;
 	}
 }

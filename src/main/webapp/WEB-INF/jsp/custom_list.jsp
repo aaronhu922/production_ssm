@@ -11,6 +11,7 @@
 			<th data-options="field:'ck',checkbox:true"></th>
 			<th data-options="field:'customId',width:100,align:'center'">客户编号</th>
 			<th data-options="field:'customName',width:100,align:'center'">客户名称</th>
+			<th	data-options="field:'customType',width:60,align:'center',formatter:TAOTAO.formatCustomType">客户类型</th>			
 			<th data-options="field:'balance',width:100,align:'center'">账户余额</th>
 			<th data-options="field:'dueBottle',width:100,align:'center',formatter:formatTotalDueBottle">欠瓶总数</th>
 			<th data-options="field:'fullName',width:200,align:'center'">客户全称</th>
@@ -130,6 +131,7 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 	             	{field : 'customId', width : 100, title : '客户编号', align:'center'},
 	             	{field : 'customName', width : 100, align : 'center', title : '客户名称'},
 	             	{field : 'balance', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'customType', width : 60, title : '客户类型', align:'center',  formatter:TAOTAO.formatCustomType}, 
 	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称', formatter:formatTotalDueBottle},
 	             	{field : 'fullName', width : 200, align : 'center', title : '客户全称'}, 
 	             	{field : 'address', width : 200, title : '地址', align:'center'}, 
@@ -153,6 +155,7 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 					{field : 'customId', width : 100, title : '客户编号', align:'center'},
 					{field : 'customName', width : 100, align : 'center', title : '客户名称'},
 	             	{field : 'balance', width : 100, align : 'center', title : '客户名称'},
+	             	{field : 'customType', width : 60, title : '客户类型', align:'center',  formatter:TAOTAO.formatCustomType}, 
 	             	{field : 'dueBottle', width : 100, align : 'center', title : '客户名称', formatter:formatTotalDueBottle},
 					{field : 'fullName', width : 200, align : 'center', title : '客户全称'}, 
 					{field : 'address', width : 200, title : '地址', align:'center'}, 
@@ -191,7 +194,7 @@ function doSearch_custom(value,name){ //用户输入用户名,点击搜素,触�
 			var row = onCustomClickRow(index); 
 			return "<a href=javascript:openCustomDueBottle("+index+")>"+row.dueBottle+"</a>";
 		}else{
-			return "无";
+			return "<a href=javascript:openCustomDueBottle("+index+")>0</a>";
 		}
 	} 
 	

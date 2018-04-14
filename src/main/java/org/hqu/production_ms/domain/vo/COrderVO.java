@@ -30,7 +30,27 @@ public class COrderVO {
 
     private BigDecimal totalMoney;
     
-    public Custom getCustom() {
+    private Byte paymentType;
+    
+	private Boolean delivery;
+    
+    public Boolean getDelivery() {
+        return delivery==null?false:delivery;
+    }
+
+    public void setDelivery(Boolean delivery) {
+        this.delivery = delivery;
+    }
+    
+    public Byte getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(Byte paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public Custom getCustom() {
 		return custom;
 	}
 

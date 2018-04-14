@@ -2,16 +2,24 @@ package org.hqu.production_ms.service;
 
 import java.util.List;
 
-import org.hqu.production_ms.domain.vo.COrderVO;
+import org.hqu.production_ms.domain.COrder;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
-import org.hqu.production_ms.domain.COrder;
+import org.hqu.production_ms.domain.vo.COrderVO;
 
 public interface OrderService {
 	
 	List<COrderVO> find() throws Exception;
 	
 	EUDataGridResult getList(int page, int rows, COrder cOrder) throws Exception;
+	
+	EUDataGridResult getMonthMetrics(int page, int rows,int year) throws Exception;
+	
+	EUDataGridResult getMonthMetricsForCustomer(int page, int rows, int year, String customId) throws Exception;
+	
+	EUDataGridResult getYearMetrics(int page, int rows, String customid) throws Exception;
+	
+	EUDataGridResult getYearMetricsForCustomer(int page, int rows, String custom) throws Exception;
 	
 	COrderVO get(String string) throws Exception;
 	
@@ -43,4 +51,5 @@ public interface OrderService {
 			String productName) throws Exception;
 
 	COrderVO searchOrderByOrderIdDeep(String id) throws Exception;
+
 }

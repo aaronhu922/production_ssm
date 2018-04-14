@@ -3,6 +3,8 @@
  */
 package org.hqu.production_ms.service;
 
+import java.util.List;
+
 import org.hqu.production_ms.domain.DueBottle;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
@@ -27,7 +29,10 @@ public interface DueBottleService {
     //根据客户信息和产品查找对应的欠瓶记录
     DueBottle searchDueBottleByCustomAndProduct(String customID, String productName) throws Exception;
 
-	int getDueBottlesCountByCustomID(String customID);    
+	int getDueBottlesCountByCustomID(String customID) throws Exception;    
     
 	EUDataGridResult getDueBottlesByCustomID(String customID) throws Exception;
+	
+	List<DueBottle> getDueBottlesListByCustomID(String customID) throws Exception;
+
 }

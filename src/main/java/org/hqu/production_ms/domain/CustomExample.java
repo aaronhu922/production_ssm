@@ -914,6 +914,66 @@ public class CustomExample {
             addCriterion("note not between", value1, value2, "note");
             return (Criteria) this;
         }
+
+        public Criteria andCustomTypeIsNull() {
+            addCriterion("custom_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeIsNotNull() {
+            addCriterion("custom_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeEqualTo(Byte value) {
+            addCriterion("custom_type =", value, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeNotEqualTo(Byte value) {
+            addCriterion("custom_type <>", value, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeGreaterThan(Byte value) {
+            addCriterion("custom_type >", value, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("custom_type >=", value, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeLessThan(Byte value) {
+            addCriterion("custom_type <", value, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("custom_type <=", value, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeIn(List<Byte> values) {
+            addCriterion("custom_type in", values, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeNotIn(List<Byte> values) {
+            addCriterion("custom_type not in", values, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeBetween(Byte value1, Byte value2) {
+            addCriterion("custom_type between", value1, value2, "customType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("custom_type not between", value1, value2, "customType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

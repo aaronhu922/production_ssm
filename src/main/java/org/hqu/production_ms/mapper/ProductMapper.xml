@@ -55,6 +55,17 @@
 				#{productId},'%' ) 
 	</select>
 	
+		
+	<select id="getProductByProductName" parameterType="string" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			product_name = #{productName}
+	</select>
+	
+	
 	<select id="searchProductByProductName" parameterType="string" resultMap="BaseResultMap">
 		SELECT
 			*

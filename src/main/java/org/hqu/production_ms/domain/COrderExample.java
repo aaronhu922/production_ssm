@@ -39,6 +39,10 @@ public class COrderExample {
     public void or(Criteria criteria) {
         oredCriteria.add(criteria);
     }
+    
+    public void addStringCondition(Criteria criteria, String condition) {
+    	criteria.addCriterion(condition);
+    }
 
     public Criteria or() {
         Criteria criteria = createCriteriaInternal();
@@ -693,6 +697,126 @@ public class COrderExample {
 
         public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeIsNull() {
+            addCriterion("payment_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeIsNotNull() {
+            addCriterion("payment_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeEqualTo(Byte value) {
+            addCriterion("payment_type =", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeNotEqualTo(Byte value) {
+            addCriterion("payment_type <>", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeGreaterThan(Byte value) {
+            addCriterion("payment_type >", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("payment_type >=", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeLessThan(Byte value) {
+            addCriterion("payment_type <", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("payment_type <=", value, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeIn(List<Byte> values) {
+            addCriterion("payment_type in", values, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeNotIn(List<Byte> values) {
+            addCriterion("payment_type not in", values, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeBetween(Byte value1, Byte value2) {
+            addCriterion("payment_type between", value1, value2, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("payment_type not between", value1, value2, "paymentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryIsNull() {
+            addCriterion("delivery is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryIsNotNull() {
+            addCriterion("delivery is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryEqualTo(Boolean value) {
+            addCriterion("delivery =", value, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryNotEqualTo(Boolean value) {
+            addCriterion("delivery <>", value, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryGreaterThan(Boolean value) {
+            addCriterion("delivery >", value, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("delivery >=", value, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryLessThan(Boolean value) {
+            addCriterion("delivery <", value, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryLessThanOrEqualTo(Boolean value) {
+            addCriterion("delivery <=", value, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryIn(List<Boolean> values) {
+            addCriterion("delivery in", values, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryNotIn(List<Boolean> values) {
+            addCriterion("delivery not in", values, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryBetween(Boolean value1, Boolean value2) {
+            addCriterion("delivery between", value1, value2, "delivery");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("delivery not between", value1, value2, "delivery");
             return (Criteria) this;
         }
     }

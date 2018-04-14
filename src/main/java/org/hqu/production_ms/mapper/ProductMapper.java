@@ -17,6 +17,8 @@ public interface ProductMapper {
 	
 	List<Product> searchProductByProductName(String productName);
 	
+	Product getProductByProductName(String productName);
+	
 	List<Product> searchProductByProductId(String productId);
 	
 	List<Product> searchProductByProductType(String productType);

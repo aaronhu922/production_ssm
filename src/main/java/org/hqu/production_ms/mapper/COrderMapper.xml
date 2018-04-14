@@ -11,6 +11,8 @@
 	<result column="image" jdbcType="VARCHAR" property="image" />
 	<result column="file" jdbcType="VARCHAR" property="file" />
 	<result column="status" jdbcType="INTEGER" property="status" />
+	<result column="payment_type" jdbcType="TINYINT" property="paymentType" />
+	<result column="delivery" jdbcType="BIT" property="delivery" />		
 	<association property="custom" javaType="custom">
 		<id column="custom_id" property="customId" jdbcType="VARCHAR" />
 		<result column="custom_name" property="customName" jdbcType="VARCHAR" />
@@ -24,11 +26,61 @@
 		<result column="owner_tel" property="ownerTel" jdbcType="VARCHAR" />
 		<result column="c_state" property="state" jdbcType="INTEGER" />
 		<result column="c_note" property="note" jdbcType="VARCHAR" />
+		<result column="custom_type" jdbcType="TINYINT" property="customType" />		
 	</association>
 </resultMap>
+
+  <resultMap id="MonthResultMap" type="org.hqu.production_ms.domain.vo.OrderMetricsVO">
+	<result column="sumOfMoney" jdbcType="DECIMAL" property="sumOfMoney" />
+	<result column="monthName" jdbcType="INTEGER" property="monthName" />    
+	<result column="year" jdbcType="INTEGER" property="year" />   	
+  </resultMap>
 	 
 	<!-- 扩展的sql -->
 	<!-- 查询所有记录 -->
+	<select id="getMonthMetrics" parameterType="int" resultMap="MonthResultMap">
+		SELECT 
+		  sum(total_money) as sumOfMoney, 
+		  month(order_date) as monthName,
+		  year(order_date) as year
+		FROM 
+		  c_order 
+		  where year(order_date)=#{year} and status=1
+     	  group by monthName DESC	
+	</select>
+	
+  <select id="getMonthMetricsForCustomer" parameterType="org.hqu.production_ms.domain.COrderExample" resultMap="MonthResultMap">
+ 		SELECT 
+		  sum(total_money) as sumOfMoney, 
+		  month(order_date) as monthName,
+		  year(order_date) as year
+		  from c_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+		  group by monthName DESC	
+  </select>
+	
+   <select id="getYearMetrics" parameterType="string" resultMap="MonthResultMap">
+		SELECT 
+		  sum(total_money) as sumOfMoney, 
+		  year(order_date) as year 
+		FROM 
+		  c_order 
+		  where status=1		  
+		  group by year DESC		
+	</select>
+	
+	 <select id="getCustomYearMetrics" parameterType="string" resultMap="MonthResultMap">
+		SELECT 
+		  sum(total_money) as sumOfMoney, 
+		  year(order_date) as year 
+		FROM 
+		  c_order 
+		  where custom_id=#{custom} and status=1
+		  group by year DESC		
+	</select>
+	
 	<select id="find" parameterType="org.hqu.production_ms.domain.COrder" resultMap="BaseResultMap">
 		SELECT
 			order_id,
@@ -39,6 +91,8 @@
 			c_order.image,
 			file,
 			c_order.status,
+			c_order.payment_type,
+			c_order.delivery,
 			custom.custom_id,
 			custom_name
 		FROM
@@ -69,6 +123,8 @@
 			c_order.image,
 			file,
 			c_order.status,
+			c_order.payment_type,
+			c_order.delivery,			
 			custom.custom_id,
 			custom_name
 		FROM
@@ -89,6 +145,8 @@
 			c_order.image,
 			file,
 			c_order.status,
+			c_order.payment_type,
+			c_order.delivery,			
 			custom.custom_id,
 			custom_name
 		FROM
@@ -109,6 +167,8 @@
 			c_order.image,
 			file,
 			c_order.status,
+			c_order.payment_type,
+			c_order.delivery,
 			custom.custom_id,
 			custom_name
 		FROM
@@ -209,7 +269,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    order_id, custom_id, order_date, request_date, note, total_money, image, file, status
+    order_id, custom_id, order_date, request_date, note, total_money, image, file, status, 
+    payment_type, delivery
   </sql>
   <select id="selectByExample" parameterType="org.hqu.production_ms.domain.COrderExample" resultMap="BaseResultMap">
     select
@@ -244,12 +305,12 @@
   <insert id="insert" parameterType="org.hqu.production_ms.domain.COrder">
     insert into c_order (order_id, custom_id, order_date, 
       request_date, note, total_money, 
-      image, file, status
-      )
+      image, file, status, 
+      payment_type, delivery)
     values (#{orderId,jdbcType=VARCHAR}, #{customId,jdbcType=VARCHAR}, #{orderDate,jdbcType=TIMESTAMP}, 
       #{requestDate,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR}, #{totalMoney,jdbcType=DECIMAL}, 
-      #{image,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+      #{image,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{paymentType,jdbcType=TINYINT}, #{delivery,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="org.hqu.production_ms.domain.COrder">
     insert into c_order
@@ -281,6 +342,12 @@
       <if test="status != null">
         status,
       </if>
+      <if test="paymentType != null">
+        payment_type,
+      </if>
+      <if test="delivery != null">
+        delivery,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -309,6 +376,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="paymentType != null">
+        #{paymentType,jdbcType=TINYINT},
+      </if>
+      <if test="delivery != null">
+        #{delivery,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -348,6 +421,12 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.paymentType != null">
+        payment_type = #{record.paymentType,jdbcType=TINYINT},
+      </if>
+      <if test="record.delivery != null">
+        delivery = #{record.delivery,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -363,7 +442,9 @@
       total_money = #{record.totalMoney,jdbcType=DECIMAL},
       image = #{record.image,jdbcType=VARCHAR},
       file = #{record.file,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      payment_type = #{record.paymentType,jdbcType=TINYINT},
+      delivery = #{record.delivery,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -395,6 +476,12 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="paymentType != null">
+        payment_type = #{paymentType,jdbcType=TINYINT},
+      </if>
+      <if test="delivery != null">
+        delivery = #{delivery,jdbcType=BIT},
+      </if>
     </set>
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
@@ -407,7 +494,9 @@
       total_money = #{totalMoney,jdbcType=DECIMAL},
       image = #{image,jdbcType=VARCHAR},
       file = #{file,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      payment_type = #{paymentType,jdbcType=TINYINT},
+      delivery = #{delivery,jdbcType=BIT}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
 </mapper>

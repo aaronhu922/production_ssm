@@ -1,9 +1,7 @@
 package org.hqu.production_ms.domain;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.Size;
 
@@ -28,6 +26,18 @@ public class COrder {
     private String file;
 
     private Integer status;
+    
+    private Byte paymentType;
+
+	private Boolean delivery;
+    
+    public Boolean getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Boolean delivery) {
+        this.delivery = delivery;
+    }
     
     @Size(max=40, message="{id.length.error}")
     private String customId;
@@ -115,5 +125,13 @@ public class COrder {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+    public Byte getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(Byte paymentType) {
+        this.paymentType = paymentType;
+    }
 
 }

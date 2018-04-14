@@ -36,13 +36,15 @@ public class Custom {
     private String ownerTel;
 
     private Integer status;
-
+    
     @Size(max=5000, message="{note.length.error}")
     private String note;
 
     public String getCustomId() {
         return customId;
     }
+    
+    private Byte customType;
 
     public void setCustomId(String customId) {
         this.customId = customId == null ? null : customId.trim();
@@ -136,5 +138,13 @@ public class Custom {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+    
+    public Byte getCustomType() {
+    	return customType;
+    }
+
+    public void setCustomType(Byte customType) {
+        this.customType = customType;
     }
 }

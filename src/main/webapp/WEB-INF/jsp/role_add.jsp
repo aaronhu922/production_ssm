@@ -36,6 +36,13 @@
 			<label><input name="permissionOption2" type="checkbox" value="32" />产品修改 </label> 
 			<label><input name="permissionOption2" type="checkbox" value="33" />产品删除 </label> 
 			<br><br>
+			
+			<span style="font-weight: bold;">财务管理：</span>
+			<label><input name="permissionOption" type="checkbox" value="61" />财务报表 </label> 
+			<label><input name="permissionOption" type="checkbox" value="62" />欠账提醒 </label> 
+			<label><input name="permissionOption" type="checkbox" value="63" />采购计划</label> 
+			<br><br>
+			<!-- 
 			<span style="font-weight: bold;">作业管理：</span>
 			<label><input name="permissionOption2" type="checkbox" value="61" />作业新增 </label> 
 			<label><input name="permissionOption2" type="checkbox" value="62" />作业修改 </label> 
@@ -136,6 +143,7 @@
 			<label><input name="permissionOption2" type="checkbox" value="262" />设备维修修改 </label> 
 			<label><input name="permissionOption2" type="checkbox" value="263" />设备维修删除 </label> 
 			<br><br>
+			 -->
 			<span style="font-weight: bold;">部门管理：</span>
 			<label><input name="permissionOption2" type="checkbox" value="41" />部门新增 </label> 
 			<label><input name="permissionOption2" type="checkbox" value="42" />部门修改 </label> 
