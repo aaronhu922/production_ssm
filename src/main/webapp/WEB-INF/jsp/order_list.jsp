@@ -37,16 +37,17 @@
 		<c:if test="${per=='order:edit' }" >
 		    <div style="float: left;">  
 		        <a href="#" class="easyui-linkbutton" plain="true" icon="icon-edit" onclick="order_edit()">编辑</a>  
-		        <a href="#" class="easyui-linkbutton" plain="true" icon="icon-print" onclick="order_print()">打印</a>  		        
 		    </div>  
-		</c:if>
+		</c:if>		
 		<c:if test="${per=='order:delete' }" >
 		    <div style="float: left;">  
 		        <a href="#" class="easyui-linkbutton" plain="true" icon="icon-cancel" onclick="order_delete()">删除</a>  
 		    </div>  
 		</c:if>
 	</c:forEach>
-	
+		<div style="float: left;"> 
+	        <a href="#" class="easyui-linkbutton" plain="true" icon="icon-print" onclick="order_print()">打印</a>  		        
+		</div> 
 	<div class="datagrid-btn-separator"></div>  
 	
 	<div style="float: left;">  

@@ -3,11 +3,47 @@
 <link href="js/kindeditor-4.1.10/themes/default/default.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8" src="js/kindeditor-4.1.10/kindeditor-all-min.js"></script>
 <script type="text/javascript" charset="utf-8" src="js/kindeditor-4.1.10/lang/zh_CN.js"></script>
+
+ <div>
+	<form id="customMetricForm" class="customMetricForm" method="post">
+	 
+		<table>
+			<tr>
+				<td width="100">客户:</td>
+				<td><input id="customId" class="easyui-combobox" name="customId"
+					panelHeight="350"
+					data-options="valueField:'customId',textField:'customName',url:'custom/get_data',
+    					editable:true" 
+    				style="width: 150px"/>
+				</td>
+			</tr>			
+			<tr>
+				<td width="100">开始日期:</td>
+				<td><input class="easyui-datetimebox" name="startDate"
+					data-options="required:false,showSeconds:true"
+					value="date.format('yyyy-MM-dd hh:mm:ss')" style="width: 150px">
+				</td>
+			</tr>
+		
+			<tr>
+				<td width="100">结束日期:</td>
+				<td><input id="requestDatePanel" class="easyui-datetimebox" name="endDate"
+					data-options="required:false,showSeconds:true"
+					value="date.format('yyyy-MM-dd hh:mm:ss')" style="width: 150px">
+				</td>
+			</tr>			
+		</table>
+	</form>
+	<div style="padding: 5px">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitCustomMetricForm()">查询</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearCustomMetricForm()">重置</a>
+	</div>
+</div>
+ 
  
 <div title="DataGrid" style="padding:5px">
 <table  id="metricsList" title="月度统计报表" class="easyui-datagrid" data-options="singleSelect:false,collapsible:true,
-		pagination:true,rownumbers:true,url:'order/monthmetrics',method:'get',pageSize:20,fitColumns:true,
-		toolbar:toolbar_OrderCheck">
+		pagination:false,rownumbers:true,url:'order/monthmetrics',method:'post',pageSize:20,fitColumns:true">
     <thead>
         <tr>
         	<th data-options="field:'sumOfMoney',align:'center',width:100">订单总额</th>
@@ -18,27 +54,6 @@
 </table>
 </div>  
 <!-- 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111 -->
-
-<div  id="toolbar_OrderCheck" style=" height: 22px; padding: 3px 11px; background: #fafafa;">  
-		
-	<div class="datagrid-btn-separator"></div>  
-	
-	<div style="float: left;">  
-		<a href="#" class="easyui-linkbutton" plain="true" icon="icon-reload" onclick="fMeasureCheck_reload()">刷新</a>  
-	</div>  
-	   <div id="search_fMeasureCheck" style="float: right;">	
-	        <input id="search_text_fMeasureCheck" class="easyui-searchbox"  
-            data-options="searcher:doSearch_fMeasureCheck,prompt:'请输入...',menu:'#menu_fMeasureCheck'"  
-            style="width:250px;vertical-align: middle;">
-        </input>
-        <div id="menu_fMeasureCheck" style="width:120px"> 
-			<div data-options="name:'year'">年份</div> 			
-		</div>     
-    </div> 
-</div>  
-    <p></p>
-    <p></p>
-    <p></p>
 
 <div>
 <table  id="yearMetricsList" title="年度报表，每年订单总额" class="easyui-datagrid" data-options="singleSelect:false,collapsible:true,
@@ -53,33 +68,19 @@
 </div>  
 
 <script>
-function doSearch_fMeasureCheck(value,name){ //用户输入用户名,点击搜素,触发此函数  
-	if(value == null || value == ''){
-		$("#metricsList").datagrid({
-	        title:'统计报表', singleSelect:false, collapsible:true, pagination:true, rownumbers:true, method:'get',
-			nowrap:true, toolbar:"toolbar_OrderCheck", url:'order/monthmetrics', method:'get', loadMsg:'数据加载中......',
-			fitColumns:true,//允许表格自动缩放,以适应父容器
-	        columns : [ [ 
-				{field : 'sumOfMoney', width : 100, title : '订单总额', align:'center'},
-				{field : 'monthName', width : 100, align : 'center', title : '月份'},
-				{field : 'year', width : 100, align : 'center', title : '年份'}
-	        ] ],  
-	    });
-	}else{
-		$("#metricsList").datagrid({  
-	        title:'统计报表', singleSelect:false, collapsible:true, pagination:true, rownumbers:true, method:'get',
-			nowrap:true, toolbar:"toolbar_OrderCheck", url:'order/monthmetrics?year='+value, loadMsg:'数据加载中......',  fitColumns:true,//允许表格自动缩放,以适应父容器
-	        columns : [ [ 
-				{field : 'sumOfMoney', width : 100, title : '订单总额', align:'center'},
-				{field : 'monthName', width : 100, align : 'center', title : '月份'},
-				{field : 'year', width : 100, align : 'center', title : '年份'}
-	        ] ],  
-	    });
+function submitCustomMetricForm(){
+	if(!$('#customMetricForm').form('validate')){
+		$.messager.alert('提示','表单还未填写完成!');
+		return ;
 	}
+	
+	$.post("order/monthmetrics",$("#customMetricForm").serialize(), function(data){
+        $('#metricsList').datagrid('loadData',data); 
+	});
 }
 
-	
-function fMeasureCheck_reload(){
-	$("#metricsList").datagrid("reload");
-}
+function clearCustomMetricForm() {
+	$('#customMetricForm').form('reset');
+}	
+
 </script>

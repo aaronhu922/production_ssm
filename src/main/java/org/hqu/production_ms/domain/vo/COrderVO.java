@@ -1,12 +1,9 @@
 package org.hqu.production_ms.domain.vo;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.hqu.production_ms.domain.Custom;
-import org.hqu.production_ms.domain.OrderItem;
 import org.hqu.production_ms.domain.Product;
 
 public class COrderVO {

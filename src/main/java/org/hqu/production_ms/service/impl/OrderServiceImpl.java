@@ -1,8 +1,12 @@
 package org.hqu.production_ms.service.impl;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hqu.production_ms.domain.vo.COrderVO;
+import org.hqu.production_ms.domain.vo.CustomMetricsVO;
 import org.hqu.production_ms.domain.vo.OrderMetricsVO;
 import org.hqu.production_ms.domain.COrderExample;
 import org.hqu.production_ms.domain.COrderExample.Criteria;
@@ -185,11 +189,27 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public EUDataGridResult getMonthMetrics(int page, int rows, int year) {
+	public EUDataGridResult getMonthMetrics(String customid, Date date, Date date2) {
 		
 		//分页处理
-		PageHelper.startPage(page, rows);
-		List<OrderMetricsVO> monthMetrics = cOrderMapper.getMonthMetrics(year);
+		PageHelper.startPage(1, 100);
+		
+		COrderExample example = new COrderExample();
+		Criteria criteria = example.createCriteria();
+		if (customid != null && customid != "") {
+			criteria.andCustomIdEqualTo(customid);
+		}
+		if(date ==null || date2==null) {
+			date2 = Calendar.getInstance().getTime();
+			Calendar calendar2 = Calendar.getInstance();
+			calendar2.set(calendar2.get(Calendar.YEAR), 0, 1, 0, 0);
+			date = calendar2.getTime();
+		}
+		
+		criteria.andOrderDateBetween(date, date2);
+		criteria.andStatusEqualTo(1);
+		
+		List<OrderMetricsVO> monthMetrics = cOrderMapper.getMonthMetrics(example);
 		//创建一个返回值对象
 		EUDataGridResult result = new EUDataGridResult();
 		result.setRows(monthMetrics);
@@ -201,24 +221,22 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public EUDataGridResult getMonthMetricsForCustomer(int page, int rows, int year, String customId) {
+	public EUDataGridResult getMonthMetricsForCustomer(String customId, Date startDate, Date endDate) {
 		
 		//分页处理
-		PageHelper.startPage(page, rows);
+		PageHelper.startPage(1, 100);
 		COrderExample example = new COrderExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andCustomIdEqualTo(customId);
-//		criteria.andOrderDateBetween(value1, value2)
-		
-		String conditon = "year(order_date)="+year;
-		
-		example.addStringCondition(criteria, conditon);
-		List<OrderMetricsVO> monthMetrics = cOrderMapper.getMonthMetricsForCustomer(example);
+		criteria.andOrderDateBetween(startDate, endDate);
+		criteria.andStatusEqualTo(1);
+//		criteria.andOrderDateBetween(value1, value2)		
+		List<CustomMetricsVO> monthMetrics = cOrderMapper.getMonthMetricsForCustomer(example);
 		//创建一个返回值对象
 		EUDataGridResult result = new EUDataGridResult();
 		result.setRows(monthMetrics);
 		//取记录总条数
-		PageInfo<OrderMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
+		PageInfo<CustomMetricsVO> pageInfo = new PageInfo<>(monthMetrics);
 		result.setTotal(pageInfo.getTotal());
 		return result;
 	}

@@ -26,10 +26,8 @@
 				<td><select id="cc" class="easyui-combobox" name="status"
 					panelHeight="auto"
 					data-options="required:true, width:150, editable:false">
-						<option value="1">入厂管理</option>
-						<option value="2">订单核对完成</option>
-						<option value="3">出厂(订单完结)</option>
-						<option value="4">订单取消</option>
+						<option value="1">有效</option>
+						<option value="2">取消</option>
 				</select></td>
 			</tr>
 			<tr>
@@ -37,10 +35,11 @@
 				<td><select id="cc" class="easyui-combobox" name="paymentType"
 					panelHeight="auto"
 					data-options="required:true, width:150, editable:false">
-						<option value="0">未付款</option>
-						<option value="1">已付现款</option>
-						<option value="2">预付款</option>
-						<option value="3">欠款</option>
+						<option value="0">现金</option>
+						<option value="1">微信/支付宝</option>
+						<option value="2">应收款</option>
+						<option value="3">公对公</option>
+						<option value="4">其他</option>
 				</select></td>
 			</tr>
 	        <tr>

@@ -29,9 +29,9 @@
 			<tr>
 				<td width="100">订购客户:</td>
 				<td><input id="custom" class="easyui-combobox" name="customId"
-					panelHeight="auto"
+					panelHeight="350"
 					data-options="required:true,valueField:'customId',textField:'customName',url:'custom/get_data',
-    					editable:false" />
+    					editable:true" />
 				</td>
 			</tr>
 			<tr>
@@ -139,7 +139,7 @@ $(function(){
 						textField:'productName',
 						url:'product/get_data',
 						required:true,
-						editable:false
+						editable:true
 					}
 				}
 			},

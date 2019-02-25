@@ -35,30 +35,42 @@
 	<result column="monthName" jdbcType="INTEGER" property="monthName" />    
 	<result column="year" jdbcType="INTEGER" property="year" />   	
   </resultMap>
+  
+  <resultMap id="MetricsResultMap" type="org.hqu.production_ms.domain.vo.CustomMetricsVO">
+	<result column="sumOfMoney" jdbcType="DECIMAL" property="sumOfMoney" />
+	<result column="monthName" jdbcType="INTEGER" property="monthName" />    
+	<result column="year" jdbcType="INTEGER" property="year" />   	
+    <result column="customName" jdbcType="VARCHAR" property="customName" />
+	<result column="quantity" jdbcType="INTEGER" property="quantity" />	
+	<result column="productId" jdbcType="VARCHAR" property="productId" />
+
+  </resultMap>
 	 
 	<!-- 扩展的sql -->
 	<!-- 查询所有记录 -->
-	<select id="getMonthMetrics" parameterType="int" resultMap="MonthResultMap">
+	<select id="getMonthMetrics" parameterType="org.hqu.production_ms.domain.COrderExample" resultMap="MonthResultMap">
 		SELECT 
 		  sum(total_money) as sumOfMoney, 
 		  month(order_date) as monthName,
 		  year(order_date) as year
 		FROM 
 		  c_order 
-		  where year(order_date)=#{year} and status=1
-     	  group by monthName DESC	
-	</select>
-	
-  <select id="getMonthMetricsForCustomer" parameterType="org.hqu.production_ms.domain.COrderExample" resultMap="MonthResultMap">
- 		SELECT 
-		  sum(total_money) as sumOfMoney, 
-		  month(order_date) as monthName,
-		  year(order_date) as year
-		  from c_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-		  group by monthName DESC	
+       	  group by monthName DESC	
+	</select>
+	
+  <select id="getMonthMetricsForCustomer" parameterType="org.hqu.production_ms.domain.COrderExample" resultMap="MetricsResultMap">
+    select 
+      product_id as productId, sum(quantity) as quantity
+      from order_item 
+      where order_id in 
+      (select order_id from c_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+		  ) group by product_id	
   </select>
 	
    <select id="getYearMetrics" parameterType="string" resultMap="MonthResultMap">

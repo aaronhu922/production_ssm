@@ -9,6 +9,7 @@ import org.hqu.production_ms.domain.COrder;
 import org.hqu.production_ms.domain.Custom;
 import org.hqu.production_ms.domain.DueBottle;
 import org.hqu.production_ms.domain.OrderItem;
+import org.hqu.production_ms.domain.OrderMetricForm;
 import org.hqu.production_ms.domain.Product;
 import org.hqu.production_ms.domain.customize.CustomResult;
 import org.hqu.production_ms.domain.customize.EUDataGridResult;
@@ -34,21 +35,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private CustomService customService;
 
 	@Autowired
 	private OrderItemService orderItemService;
-	
+
 	@Autowired
 	private DueBottleService dueBottleService;
 
@@ -80,46 +81,49 @@ public class OrderController {
 	public String edit() throws Exception {
 		return "order_edit";
 	}
-	
+
 	@RequestMapping("/metric")
 	public String getMetrics() throws Exception {
 		return "order_metric";
 	}
-	
-	@RequestMapping("/monthmetrics")
-	@ResponseBody
-	public EUDataGridResult getMetricsByMonth(Integer page, Integer rows, Integer year) throws Exception {
-		if (year==null || year <= 1970)
-			year = LocalDate.now().getYear();
-		logger.info("year is " + year);
-		EUDataGridResult result = orderService.getMonthMetrics(page, rows, year);
-		return result;
-	}
-	
-	@RequestMapping("/custom_monthmetrics")
-	@ResponseBody
-	public EUDataGridResult getCustomMetricsByMonth(Integer page, Integer rows, String custom, Integer year) throws Exception {
 
-		EUDataGridResult result = orderService.getMonthMetricsForCustomer(page, rows, year, custom);
+	@RequestMapping(value = "/monthmetrics", method = RequestMethod.POST)
+	@ResponseBody
+	public EUDataGridResult getMetricsByMonth( @Valid OrderMetricForm orderMetricForm, BindingResult bindingResult) throws Exception {
+			// logger.info("year is " + year);
+		EUDataGridResult result = orderService.getMonthMetrics(orderMetricForm.getCustomId(),
+				orderMetricForm.getStartDate(), orderMetricForm.getEndDate());
 		return result;
 	}
-	
-	@RequestMapping("/custom_yearmetrics")
+
+	@RequestMapping(value = "/custom_order_metrics", method = RequestMethod.POST)
 	@ResponseBody
-	public EUDataGridResult getCustomMetricsByYear(Integer page, Integer rows,String custom) throws Exception {
+	public EUDataGridResult getCustomMetricsByMonth( @Valid OrderMetricForm orderMetricForm, BindingResult bindingResult)
+			throws Exception {
+
+		// logger.info("form params: " + orderMetricForm.getCustomId() +
+		// orderMetricForm.getStartDate()
+		// + orderMetricForm.getEndDate());
+		EUDataGridResult result = orderService.getMonthMetricsForCustomer(orderMetricForm.getCustomId(),
+				orderMetricForm.getStartDate(), orderMetricForm.getEndDate());
+		return result;
+	}
+
+	@RequestMapping(value = "/custom_yearmetrics")
+	@ResponseBody
+	public EUDataGridResult getCustomMetricsByYear(Integer page, Integer rows, String custom) throws Exception {
 
 		EUDataGridResult result = orderService.getYearMetricsForCustomer(page, rows, custom);
 		return result;
 	}
 
-
-	
 	@RequestMapping("/yearmetrics")
 	@ResponseBody
 	public EUDataGridResult getMetricsByYear(Integer page, Integer rows, String customId) throws Exception {
 		EUDataGridResult result = orderService.getYearMetrics(page, rows, customId);
 		return result;
 	}
+
 	@RequestMapping("/list")
 	@ResponseBody
 	public EUDataGridResult getList(Integer page, Integer rows, COrder cOrder) throws Exception {
@@ -144,7 +148,7 @@ public class OrderController {
 		}
 		if (result.getStatus() == 200) {
 			// continue to insert orderlist
-			
+
 			List<OrderItem> orderItems = JsonUtils.getOrderItems(cOrder.getOrderList());
 			for (OrderItem orderItem : orderItems) {
 				orderItem.setOrderId(cOrder.getOrderId());
@@ -154,9 +158,9 @@ public class OrderController {
 					result = new CustomResult(1, "产品列表存储错误，需要删除订单!", null);
 					return result;
 				}
-				
+
 				Product prodoct = productService.getProductByProductName(orderItem.getProductId());
-				if (prodoct!=null && prodoct.getProductType().equals("3")) {
+				if (prodoct != null && prodoct.getProductType().equals("3")) {
 					DueBottle db = dueBottleService.searchDueBottleByCustomAndProduct(cOrder.getCustomId(),
 							orderItem.getProductId());
 					if (db == null) {
@@ -165,20 +169,20 @@ public class OrderController {
 						bottleCount.setProductId(orderItem.getProductId());
 						bottleCount.setQuantity(0 - orderItem.getQuantity());
 						dueBottleService.insert(bottleCount);
-						logger.warn("客户  " + cOrder.getCustomId() + " 现欠  " + orderItem.getProductId() 
-								 + -orderItem.getQuantity() + "个");
+						logger.warn("客户  " + cOrder.getCustomId() + " 现欠  " + orderItem.getProductId()
+								+ -orderItem.getQuantity() + "个");
 					} else {
 						int curr = db.getQuantity();
 						db.setQuantity(curr - orderItem.getQuantity());
 						dueBottleService.update(db);
 						logger.warn("更新欠瓶数， 客户  " + cOrder.getCustomId() + "原欠  " + orderItem.getProductId() + curr
-								+ " 个， 现欠瓶数为" + (curr - orderItem.getQuantity() ));
+								+ " 个， 现欠瓶数为" + (curr - orderItem.getQuantity()));
 
 					}
 				}
 			}
-			
-			//获取客户总欠瓶数
+
+			// 获取客户总欠瓶数
 			int countofBottle = 0;
 			try {
 				countofBottle = dueBottleService.getDueBottlesCountByCustomID(cOrder.getCustomId());
@@ -191,26 +195,25 @@ public class OrderController {
 			custom.setDueBottle(countofBottle);
 			switch (cOrder.getPaymentType()) {
 			case 2:
-			case 3: {				
+			case 3: {
 				logger.warn("Customer " + custom.getCustomName() + " 本订单之前余额：  " + custom.getBalance() + ", 本订单金额： "
 						+ cOrder.getTotalMoney());
 				custom.setBalance(custom.getBalance().subtract(cOrder.getTotalMoney()));
 				customService.updateBalanceAndBottleCount(custom);
 				logger.warn("Customer " + custom.getCustomName() + " 现在余额：  " + custom.getBalance());
 				break;
-				}
+			}
 
 			default:
 				logger.warn("This order is paid by cash, total money is " + cOrder.getTotalMoney());
 				customService.updateBalanceAndBottleCount(custom);
 				break;
 			}
-			
+
 		}
-		
+
 		return result;
 	}
-
 
 	@RequestMapping(value = "/update")
 	@ResponseBody

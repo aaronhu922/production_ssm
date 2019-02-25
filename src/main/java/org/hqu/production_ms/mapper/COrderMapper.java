@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.hqu.production_ms.domain.COrder;
 import org.hqu.production_ms.domain.COrderExample;
 import org.hqu.production_ms.domain.vo.COrderVO;
+import org.hqu.production_ms.domain.vo.CustomMetricsVO;
 import org.hqu.production_ms.domain.vo.OrderMetricsVO;
 
 public interface COrderMapper {
@@ -13,9 +14,9 @@ public interface COrderMapper {
 	//扩展的mapper接口方法
 	List<COrderVO> find(COrder cOrder);
 	
-	List<OrderMetricsVO> getMonthMetrics(int year);
+	List<OrderMetricsVO> getMonthMetrics(COrderExample example);
 	
-	List<OrderMetricsVO> getMonthMetricsForCustomer(COrderExample example);
+	List<CustomMetricsVO> getMonthMetricsForCustomer(COrderExample example);
 	
 	List<OrderMetricsVO> getYearMetrics(String customid);
 	

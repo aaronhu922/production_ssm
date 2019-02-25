@@ -2,11 +2,12 @@ package org.hqu.production_ms.mapper;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hqu.production_ms.domain.COrderExample;
 import org.hqu.production_ms.domain.COrderExample.Criteria;
+import org.hqu.production_ms.domain.vo.CustomMetricsVO;
 import org.hqu.production_ms.domain.vo.OrderMetricsVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,24 +83,34 @@ public class COrderTest {
 //			List<COrderVO> corder = mapper.searchOrderByOrderIdDeep("00001");
 //			assertEquals(1, result.size());
 //			assertEquals("胡永", corder.get(0).getCustom().getCustomName());
+			COrderExample example1 = new COrderExample();
+			Criteria criteria = example1.createCriteria();
+			criteria.andCustomIdEqualTo("1");
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(2018, 1, 1);
+			criteria.andOrderDateBetween(calendar.getTime(), Calendar.getInstance().getTime());
+			criteria.andStatusEqualTo(1);
 			
-			List<OrderMetricsVO> monthMetrics = mapper.getMonthMetrics(2018);
-			assertEquals(3, monthMetrics.size());
+			List<OrderMetricsVO> monthMetrics = mapper.getMonthMetrics(example1);
+//			assertEquals(1, monthMetrics.size());
 			for (OrderMetricsVO orderMetricsVO : monthMetrics) {
 				System.out.println(orderMetricsVO.getMonthName() + " " + orderMetricsVO.getSumOfMoney());
 			}
 			
-			COrderExample example = new COrderExample();
-			Criteria criteria = example.createCriteria();
-			criteria.andCustomIdEqualTo("1");
-			example.addStringCondition(criteria, "year(order_date)=year(curdate())");
+			COrderExample example2 = new COrderExample();
+			Criteria criteria2 = example2.createCriteria();
+			criteria2.andCustomIdEqualTo("1");
+			Calendar calendar2 = Calendar.getInstance();
+			calendar2.set(2018, 1, 1);
+			criteria2.andOrderDateBetween(calendar2.getTime(), Calendar.getInstance().getTime());
+			criteria2.andStatusEqualTo(1);
 //			criteria.andOrderDateBetween(new Date(2018, 1, 1), new Date(2019, 1, 1));
-			System.out.println(example.toString());
-			monthMetrics = mapper.getMonthMetricsForCustomer(example);
+			System.out.println(example2.toString());
+			List<CustomMetricsVO> customMetrics = mapper.getMonthMetricsForCustomer(example2);
 			
-			assertEquals(1, monthMetrics.size());
-			for (OrderMetricsVO orderMetricsVO : monthMetrics) {
-				System.out.println("customer id is 1, " + orderMetricsVO.getMonthName() + " " + orderMetricsVO.getSumOfMoney());
+//			assertEquals(4, customMetrics.size());
+			for (CustomMetricsVO orderMetricsVO : customMetrics) {
+				System.out.println("customer id is 1, " + orderMetricsVO.getProductId() + " " + orderMetricsVO.getQuantity());
 			}
 			
 
